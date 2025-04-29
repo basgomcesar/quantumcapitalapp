@@ -1,4 +1,3 @@
-import Navbar from "@/components/Navbar";
 import "./globals.css";
 
 export const metadata = {
@@ -9,10 +8,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <div className="flex min-h-screen">
-        <Navbar />
         <body>{children}</body>
-      </div>
     </html>
   );
 }
