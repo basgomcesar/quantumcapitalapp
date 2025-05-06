@@ -1,5 +1,12 @@
 @import "tailwindcss";
 
 @tailwind base;
-@tailwind components;
 @tailwind utilities;
+:root {
+    --font-family-sans: 'Inter', sans-serif;
+}
+
+body {
+    font-family: var(--font-family-sans);
+    background: linear-gradient(0, #8A2BE2 30%, #0000FF 100%);
+}
