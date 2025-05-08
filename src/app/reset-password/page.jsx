@@ -3,8 +3,19 @@
 import Link from "next/link";
 import React from "react";
 import { TextInput } from "@/components/TextInput";
+import { useForm } from "react-hook-form";
+import { useState } from "react";
+import { FaSpinner } from "react-icons/fa";
+import { useRouter } from "next/navigation";
 
 const ResetPassword = () => {
+  const router = useRouter();
+  const [serverError, setServerError] = useState("");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm();
   return (
     <>
       <div className="container mx-auto flex flex-col items-center justify-center h-screen">
@@ -30,6 +41,14 @@ const ResetPassword = () => {
               label="Correo electronico"
               id="email"
               defaultMessageError="Correo invalido"
+              register={register("email", {
+                required: "Ingrese un correo.",
+                pattern: {
+                  value: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/,
+                  message: "Formato de correo inválido.",
+                },
+              })}
+              error={errors.email}
             />
             {/* agrega el boton continuar */}
             <button className="flex w-full justify-center rounded-3xl bg-indigo-600 px-3 py-3 text-md text-white hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">

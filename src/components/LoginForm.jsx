@@ -9,7 +9,11 @@ import { useForm } from "react-hook-form";
 export function LoginForm() {
   const [loading, setLoading] = useState(false);
   const [serverError, setServerError] = useState("");
-  const { register, handleSubmit, formState: { errors,isSubmitting } } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm();
   const onSubmit = async (event) => {
     setServerError("");
     try {
@@ -29,8 +33,22 @@ export function LoginForm() {
         label="Correo electronico"
         id="email"
         defaultMessageError="Correo invalido"
+        register={register("email", {
+          required: "Ingrese un correo.",
+          pattern: {
+            value: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/,
+            message: "Formato de correo inválido.",
+          },
+        })}
+        error={errors.email}
       />
-      <PasswordInput label="Contraseña" />
+      <PasswordInput
+        label="Contraseña"
+        register={register("password", {
+          required: "Ingrese una contraseña.",
+        })}
+        error={errors.password}
+      />
 
       <div className="flex items-start justify-between">
         <div className="text-sm">
@@ -43,12 +61,14 @@ export function LoginForm() {
         </div>
       </div>
       <button
-        disabled={loading}
+        disabled={isSubmitting}
         className={`flex w-full justify-center rounded-3xl bg-indigo-600 px-3 py-3 text-md text-white  focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 ${
-          loading ? "opacity-80 cursor-not-allowed " : "cursor-pointer hover:bg-indigo-500"
+          isSubmitting
+            ? "opacity-80 cursor-not-allowed "
+            : "cursor-pointer hover:bg-indigo-500"
         }`}
       >
-        {loading ? (
+        {isSubmitting ? (
           <FaSpinner className="animate-spin" size={20} color="white" />
         ) : (
           "Iniciar sesión"
