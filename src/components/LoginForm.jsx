@@ -5,25 +5,23 @@ import { TextInput } from "./TextInput";
 import { useState } from "react";
 import { FaSpinner } from "react-icons/fa";
 import { useForm } from "react-hook-form";
+import { useLogin } from "@/hooks/useLogin";
 
 export function LoginForm() {
-  const [loading, setLoading] = useState(false);
-  const [serverError, setServerError] = useState("");
+  const { login, loading, error, resetError } = useLogin();
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm();
-  const onSubmit = async (event) => {
-    setServerError("");
+
+  const onSubmit = async (data) => {
+    resetError();
     try {
-      // Simular una llamada a API
-      await new Promise((resolve) => setTimeout(resolve, 3000));
-      // Aquí iría tu lógica de login (ej. fetch o axios)
+      const { email, password } = data;
+      await login(email, password);
     } catch (error) {
-      console.error("Error al iniciar sesión", error);
-    } finally {
-      setLoading(false);
+
     }
   };
 
@@ -49,6 +47,9 @@ export function LoginForm() {
         })}
         error={errors.password}
       />
+            {error && !errors.password && (
+        <div className="text-red-600 text-sm mt-1">{error}</div>
+      )}
 
       <div className="flex items-start justify-between">
         <div className="text-sm">
@@ -61,14 +62,14 @@ export function LoginForm() {
         </div>
       </div>
       <button
-        disabled={isSubmitting}
+        disabled={isSubmitting || loading}
         className={`flex w-full justify-center rounded-3xl bg-indigo-600 px-3 py-3 text-md text-white  focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 ${
-          isSubmitting
+          isSubmitting || loading
             ? "opacity-80 cursor-not-allowed "
             : "cursor-pointer hover:bg-indigo-500"
         }`}
       >
-        {isSubmitting ? (
+        {isSubmitting || loading ? (
           <FaSpinner className="animate-spin" size={20} color="white" />
         ) : (
           "Iniciar sesión"
