@@ -6,6 +6,8 @@ import { useState } from "react";
 import { FaSpinner } from "react-icons/fa";
 import { useForm } from "react-hook-form";
 import { useLogin } from "@/hooks/useLogin";
+import Cookies from "js-cookie";  // Importamos js-cookie para acceder a las cookies
+
 
 export function LoginForm() {
   const { login, loading, error, resetError } = useLogin();
@@ -20,6 +22,14 @@ export function LoginForm() {
     try {
       const { email, password } = data;
       await login(email, password);
+      // Accedemos al token desde las cookies después de iniciar sesión
+      const token = Cookies.get("authToken");
+
+      // Usamos alert() para mostrar el token en un popup
+      alert("Token de autenticación: " + token);
+       // Imprimimos el token en la consola
+      console.log("Token de autenticación:", token);  // Este es el log que muestra el token en la consola
+
     } catch (error) {
 
     }
