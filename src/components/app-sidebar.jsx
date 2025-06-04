@@ -47,7 +47,7 @@ const data = {
     },
     {
       title: "Bitacora",
-      url: "#",
+      url: "/logs",
       icon: ClipboardList,
     },
     {
