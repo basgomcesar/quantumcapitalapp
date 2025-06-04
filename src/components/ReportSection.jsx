@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button } from './ui/button';
 
 const reportData = [
     { id: 1, name: 'John Doe', investment: '$10,000', returns: '$1,200', date: '2024-06-01' },
@@ -9,6 +10,7 @@ const reportData = [
 const ReportSection = () => (
     <section style={{ padding: '2rem' }}>
         <h2>Investment Report</h2>
+        <Button>Oprimeme</Button>
         <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: '1rem' }}>
             <thead>
                 <tr>
