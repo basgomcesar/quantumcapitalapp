@@ -4,7 +4,7 @@ import { HeroSection } from "../../components/HeroSection";
 
 export default function LoginPage() {
   return (
-    <div className="flex h-screen">
+    <div className="flex h-screen bg-[var(--primary)]">
       <HeroSection />
 
       <div className="flex flex-col container h-screen pt-15 lg:px-8">
@@ -12,7 +12,7 @@ export default function LoginPage() {
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
             <div className="flex items-center justify-center mb-10">
               <img src="/logo.png" alt="Logo" className="w-20 h-23 mr-4 mb-6" />
-              <h1 className="text-3xl font-semibold text-indigo-600 mb-10 text-left">
+              <h1 className="text-3xl font-semibold text-[var(--primary)] mb-10 text-left">
                 Quantum <br />
                 Capital
               </h1>
