@@ -47,7 +47,7 @@ const data = {
     },
     {
       title: "Bitacora",
-      url: "#",
+      url: "/logs",
       icon: ClipboardList,
     },
     {
@@ -65,7 +65,7 @@ const data = {
 
 export function AppSidebar({ ...props }) {
   return (
-    <Sidebar variant="inset" {...props}>
+    <Sidebar variant="inset" collapsible="icon" {...props}>
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
