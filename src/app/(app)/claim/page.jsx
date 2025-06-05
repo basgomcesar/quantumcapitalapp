@@ -7,44 +7,8 @@ import ClaimCreditsTable from "@/components/ClaimCreditsTable";
 import ClaimRequestsTable from "@/components/ClaimRequestTable";
 import Cookies from "js-cookie"; // Importa js-cookie aquí
 import { useCreditos } from "@/hooks/useClaim";
-
-const TopBar = () => {
-  const cookieStore = Cookies.get();
-  // Verificar si la cookie 'user' existe y no está vacía
-  const user = cookieStore && cookieStore.user ? cookieStore.user : null;
-
-  // Si la cookie 'user' no existe, podemos manejarlo adecuadamente
-  if (!user) {
-    console.log(
-      "No se encontró la cookie 'user', por favor verifica la autenticación."
-    );
-    // Si lo deseas, podrías redirigir a la página de login si no encuentras al usuario.
-  }
-
-  return (
-    <header className="fixed top-0 left-0 w-full flex items-center justify-between px-6 py-3 bg-white shadow z-50">
-      <div className="flex items-center">
-        <img
-          src="/logo.png"
-          alt="Quantum Capital Logo"
-          className="h-8 w-8 mr-2"
-        />
-        <span className="font-semibold text-xl text-gray-800">
-          Quantum Capital
-        </span>
-      </div>
-      <div className="flex items-center">
-        <span className="text-gray-700 mr-4">{user}</span>
-        <img
-          src="/user-avatar.png"
-          alt="User Avatar"
-          className="h-8 w-8 rounded-full"
-        />
-      </div>
-    </header>
-  );
-};
-
+//Se importa el spinner para mostrar mientras se cargan los créditos
+import { FaSpinner } from "react-icons/fa";
 export default function ClaimPage() {
   const modal = useModal();
 
@@ -60,11 +24,22 @@ export default function ClaimPage() {
   }, []); // Ejecuta una sola vez al cargar el componente
 
   if (loading) return <p className="ml-64 pt-16">Cargando créditos...</p>;
-  if (error) return <p className="ml-64 pt-16 text-red-600">Error: {error}</p>;
+  //if (error) return <p className="ml-64 pt-16 text-red-600">Error: {error}</p>;
 
   return (
     <>
       <div className="min-h-screen bg-white p-6">
+        {loading && (
+          <div className="flex items-center gap-2">
+            <FaSpinner className="animate-spin text-2xl" />
+            <span>Cargando créditos...</span>
+          </div>
+        )}
+        {error && (
+          <p className="text-red-600">
+            Error al cargar los créditos: {error}
+          </p>
+        )}
         {/* pt-16 para dejar espacio al TopBar fijo */}
         <ClaimCreditsTable onButtonClick={() => modal.open("newClaim")} />
         <br />
