@@ -3,9 +3,8 @@ const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 import Cookies from "js-cookie";
 
 
-export async function fetchCreditos(userId) {
-  if (!userId) throw new Error("El userId es requerido para obtener créditos");
-
+export async function fetchCreditos() {
+  const userId = Cookies.get("userId");  // Obtener el userId desde las cookies
   const token = Cookies.get("authToken");  // Obtener el token desde las cookies
   if (!token) {
     throw new Error("No se encontró el token de autenticación");
