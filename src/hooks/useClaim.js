@@ -14,16 +14,9 @@ export function useCreditos() {
       setError(null);
 
       try {
-        const userId = Cookies.get("userId");
-        const token = Cookies.get("authToken");  // Obtener el token de las cookies
-
-        if (!userId) throw new Error("Usuario no autenticado");
-        if (!token) throw new Error("Token de autenticación no encontrado");
-
-        const userIdNum = parseInt(userId, 10);
 
         // Llamamos a la función getCredits, pasándole el userId y el token en las cabeceras
-        const data = await getCredits(userIdNum, token);
+        const data = await getCredits();
 
         setCreditos(data);
       } catch (err) {

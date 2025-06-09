@@ -28,7 +28,7 @@ export default function ClaimPage() {
 
   return (
     <>
-      <div className="min-h-screen bg-white p-6">
+      <div className=" bg-white p-6">
         {loading && (
           <div className="flex items-center gap-2">
             <FaSpinner className="animate-spin text-2xl" />

@@ -20,6 +20,9 @@
   --primary-foreground: #FFFFFF;
   --secondary: #C8D1DA;
   --secondary-foreground: #1E2A38;
+            --card-gradient-from: rgba(255, 255, 255, 0.8);
+          --card-gradient-to: rgba(249, 250, 251, 0.8);
+          --card-gradient-stops: var(--card-gradient-from), var(--card-gradient-to);
 
   /* Accents & Utility */
   --muted: #E0E6ED;
@@ -95,6 +98,8 @@ body {
 }
 
 .dark {
+            --card-gradient-from: rgba(31, 41, 55, 0.8);
+          --card-gradient-to: rgba(17, 24, 39, 0.8);
   --background: #121A24;
   --foreground: #F4F6F8;
 
@@ -137,6 +142,9 @@ body {
   --sidebar-border: rgba(255, 255, 255, 0.1);
   --sidebar-ring: #D4AF37;
 }
+        .card-gradient {
+          background: linear-gradient(to bottom right, var(--card-gradient-stops));
+        }
 
 @layer base {
   * {
