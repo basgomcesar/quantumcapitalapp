@@ -1,42 +1,89 @@
 // src/lib/api/claimClient.js
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 import Cookies from "js-cookie";
 
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
-export async function fetchCreditos() {
-  const userId = Cookies.get("userId");  // Obtener el userId desde las cookies
-  const token = Cookies.get("authToken");  // Obtener el token desde las cookies
-  if (!token) {
-    throw new Error("No se encontró el token de autenticación");
+// Recupera los créditos del usuario autenticado
+export async function fetchCreditosPorUsuario() {
+  const userId = Cookies.get("userId");
+  const token = Cookies.get("authToken");
+
+  if (!userId || !token) {
+    throw new Error("No se encontró el userId o el token de autenticación.");
   }
 
-  const url = `${BASE_URL}/Creditoes/${userId}`;
-  console.log("Haciendo petición a:", url);  // Verifica la URL de la API
-
-  const response = await fetch(url, {
+  const response = await fetch(`${BASE_URL}/Creditoes/usuario/${userId}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      "Authorization": `Bearer ${token}`  // Agregar el token en las cabeceras
+      Authorization: `Bearer ${token}`,
     },
   });
 
-  console.log("Código de estado de la respuesta:", response.status);  // Verifica el código de estado de la respuesta
-
-  const textData = await response.text();
-  console.log("Respuesta de la API:", textData);  // Muestra la respuesta sin parsear
-
-  let parsedData;
-  try {
-    parsedData = textData ? JSON.parse(textData) : [];
-  } catch (error) {
-    throw new Error("Error al parsear la respuesta de créditos");
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(errorText || "Error al obtener los créditos del usuario");
   }
+
+  const data = await response.json();
+  return data; // Lista de objetos CreditoDTO
+}
+
+//Registra un nuevo reclamo para un crédito
+export async function RegisterNewClaim(creditoId, descripcion) {
+  const token = Cookies.get("authToken");
+
+  if (!token) {
+    throw new Error("No se encontró el token de autenticación.");
+  }
+
+  const body = {
+    idCredito: creditoId,
+    descripcionReclamo: descripcion,
+    fechaReclamo: new Date().toISOString(),
+    dictamen: "Pendiente", 
+  };
+
+  const response = await fetch(`${BASE_URL}/Reclamoes`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(body),
+  });
 
   if (!response.ok) {
-    // El error también podría venir del código de estado
-    throw new Error(parsedData?.message || `Error ${response.status}: ${textData}`);
+    const errorText = await response.text();
+    throw new Error(errorText || "Error al registrar el reclamo");
   }
 
-  return parsedData;  // Asegúrate de que esta sea la respuesta que esperas
+  return await response.json(); // Devuelve el ReclamoDTO creado
+}
+
+//Recuperar reclamos del usuario
+export async function GetClaimsByUser() {
+  const userId = Cookies.get("userId");
+  const token = Cookies.get("authToken");
+
+  if (!userId || !token) {
+    throw new Error("No se encontró el userId o el token de autenticación.");
+  }
+
+  const response = await fetch(`${BASE_URL}/Reclamoes/usuario/${userId}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(errorText || "Error al obtener los reclamos del usuario");
+  }
+
+  const data = await response.json(); // Lista de objetos ReclamoDTO
+
+  return data;
 }
