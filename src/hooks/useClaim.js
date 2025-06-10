@@ -39,21 +39,24 @@ export function useClaimsByUser() {
   const [loadingSeeClaim, setLoading] = useState(false);
   const [errorSeeClaim, setError] = useState(null);
 
-  useEffect(() => {
-    async function fetchData() {
-      setLoading(true);
-      setError(null);
-      try {
-        const data = await getClaims(); // 🔁 Llama a GetClaimsByUser internamente
-        setReclamos(data);
-      } catch (err) {
-        setError(err.message || "Error al cargar reclamos");
-      } finally {
-        setLoading(false);
-      }
+  // ✅ Definir la función fuera del useEffect
+  async function fetchData() {
+    setLoading(true);
+    setError(null);
+    try {
+      const data = await getClaims();
+      setReclamos(data);
+    } catch (err) {
+      setError(err.message || "Error al cargar reclamos");
+    } finally {
+      setLoading(false);
     }
+  }
+
+  // ✅ Usar useEffect solo para invocar la función
+  useEffect(() => {
     fetchData();
   }, []);
 
-  return { reclamos, loadingSeeClaim, errorSeeClaim };
+  return { reclamos, loadingSeeClaim, errorSeeClaim, refetchClaims: fetchData };
 }

@@ -14,10 +14,12 @@ import { FaSpinner } from "react-icons/fa";
 export default function ClaimPage() {
   const modal = useModal();
   const { creditos, loading, error } = useCreditos();
-  const { reclamos, loadingSeeClaim, errorSeeClaim } = useClaimsByUser();
+  const { reclamos, loadingSeeClaim, errorSeeClaim, refetchClaims } = useClaimsByUser();
   const [selectedCredito, setSelectedCredito] = useState(null);
   const [selectedClaim, setSelectedClaim] = useState(null);
   const [showAlert, setShowAlert] = useState(false);
+  const [showAlertSeeClaim, setShowAlertSeeClaim] = useState(false);
+
   const [modalOpen, setModalOpen] = useState(false);
    const [modalOpenSeeClaim, setModalOpenSeeClaim] = useState(false);
 
@@ -105,11 +107,17 @@ export default function ClaimPage() {
           reclamos={reclamos}
           onSelectClaim={(reclamo) => {
             setSelectedClaim(reclamo);
-            setShowAlert(false);
+            setShowAlertSeeClaim(false);
           }}
-          onButtonClick={handleButtonClickClaim} // mejor usar su handler específico
+          onButtonClickSeeClaim={handleButtonClickClaim} 
           selectedClaimId={selectedClaim?.id}
         />
+
+        {showAlertSeeClaim && (
+          <p className="text-center text-red-600 mt-4">
+            Debes seleccionar un reclamo antes de continuar.
+          </p>
+        )}
 
 
 
@@ -117,6 +125,7 @@ export default function ClaimPage() {
         isOpen={modalOpen}
         credito={selectedCredito}
         onClose={handleCloseModal}
+        onClaimCreated={refetchClaims}
       />
 
       <SeeClaimModal

@@ -46,7 +46,6 @@ export async function login({ email, password }) {
       Cookies.set("user", parsedData.nombre);
       Cookies.set("apellidos", parsedData.apellido);
 
-      console.log("Token JWT para pruebas:", parsedData.token);
     }
   }
 

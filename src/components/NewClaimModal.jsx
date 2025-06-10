@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { registerNewClaim } from "@/lib/services/claimServices";
 
-export function NewClaimModal({ isOpen, onClose, credito }) {
+export function NewClaimModal({ isOpen, onClose, credito, onClaimCreated  }) {
   const [descripcion, setDescripcion] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
@@ -23,6 +23,9 @@ export function NewClaimModal({ isOpen, onClose, credito }) {
       setError("");
       setDescripcion("");
 
+      if (onClaimCreated) {
+        onClaimCreated();
+      }
       // Espera un momento y cierra el modal
       setTimeout(() => {
         setSuccess(false);
