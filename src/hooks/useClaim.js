@@ -1,8 +1,9 @@
 // src/hooks/useClaim.js
 import { useState, useEffect } from "react";
-import { getCredits } from "@/lib/services/claimServices";
+import { getCredits, getClaims  } from "@/lib/services/claimServices";
 import Cookies from "js-cookie";
 
+// Hook para obtener los créditos del usuario autenticado
 export function useCreditos() {
   const [creditos, setCreditos] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -30,4 +31,32 @@ export function useCreditos() {
   }, []);
 
   return { creditos, loading, error };
+}
+
+// Hook para obtener los reclamos del usuario autenticado
+export function useClaimsByUser() {
+  const [reclamos, setReclamos] = useState([]);
+  const [loadingSeeClaim, setLoading] = useState(false);
+  const [errorSeeClaim, setError] = useState(null);
+
+  // ✅ Definir la función fuera del useEffect
+  async function fetchData() {
+    setLoading(true);
+    setError(null);
+    try {
+      const data = await getClaims();
+      setReclamos(data);
+    } catch (err) {
+      setError(err.message || "Error al cargar reclamos");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  // ✅ Usar useEffect solo para invocar la función
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  return { reclamos, loadingSeeClaim, errorSeeClaim, refetchClaims: fetchData };
 }
