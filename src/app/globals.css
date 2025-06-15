@@ -1,12 +1,156 @@
 @import "tailwindcss";
+@import "tw-animate-css";
 
-@tailwind base;
-@tailwind utilities;
+@custom-variant dark (&:is(.dark *));
+
 :root {
-    --font-family-sans: 'Inter', sans-serif;
+  --font-family-sans: 'Inter', sans-serif;
+  --radius: 0.625rem;
+
+  /* Base Colors */
+  --background: #F4F6F8;
+  --foreground: #1E2A38;
+  --card: #FFFFFF;
+  --card-foreground: #1E2A38;
+  --popover: #FFFFFF;
+  --popover-foreground: #1E2A38;
+
+  /* Brand */
+  --primary: #1E3A5F; /* Navy blue */
+  --primary-foreground: #FFFFFF;
+  --secondary: #C8D1DA;
+  --secondary-foreground: #1E2A38;
+            --card-gradient-from: rgba(255, 255, 255, 0.8);
+          --card-gradient-to: rgba(249, 250, 251, 0.8);
+          --card-gradient-stops: var(--card-gradient-from), var(--card-gradient-to);
+
+  /* Accents & Utility */
+  --muted: #E0E6ED;
+  --muted-foreground: #4A5568;
+  --accent: #D4AF37; /* Golden accent */
+  --accent-foreground: #1E2A38;
+  --destructive: #D9534F;
+
+  /* Borders & Inputs */
+  --border: #CBD5E1;
+  --input: #E2E8F0;
+  --ring: #A0AEC0;
+
+  /* Charts */
+  --chart-1: #1E3A5F;
+  --chart-2: #3B6BA5;
+  --chart-3: #B0C4DE;
+  --chart-4: #2C3E50;
+  --chart-5: #D4AF37;
+
+  /* Sidebar */
+  --sidebar: #1E2A38;
+  --sidebar-foreground: #FFFFFF;
+  --sidebar-primary: #2A3F5F;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: #D4AF37;
+  --sidebar-accent-foreground: #1E2A38;
+  --sidebar-border: #32465A;
+  --sidebar-ring: #D4AF37;
 }
 
 body {
-    font-family: var(--font-family-sans);
-    background: linear-gradient(0, #8A2BE2 30%, #0000FF 100%);
+  font-family: var(--font-family-sans);
+  background: linear-gradient(180deg, #F4F6F8 0%, #E2E8F0 100%);
+}
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+.dark {
+            --card-gradient-from: rgba(31, 41, 55, 0.8);
+          --card-gradient-to: rgba(17, 24, 39, 0.8);
+  --background: #121A24;
+  --foreground: #F4F6F8;
+
+  --card: #1F2A38;
+  --card-foreground: #F4F6F8;
+
+  --popover: #1F2A38;
+  --popover-foreground: #F4F6F8;
+
+  --primary: #1E3A5F;
+  --primary-foreground: #FFFFFF;
+
+  --secondary: #2D3E50;
+  --secondary-foreground: #F4F6F8;
+
+  --muted: #2C3E50;
+  --muted-foreground: #A0AEC0;
+
+  --accent: #D4AF37;
+  --accent-foreground: #121A24;
+
+  --destructive: #FF6B6B;
+
+  --border: rgba(255, 255, 255, 0.1);
+  --input: rgba(255, 255, 255, 0.08);
+  --ring: #D4AF37;
+
+  --chart-1: #3B6BA5;
+  --chart-2: #B0C4DE;
+  --chart-3: #D4AF37;
+  --chart-4: #1E3A5F;
+  --chart-5: #2C3E50;
+
+  --sidebar: #1E2A38;
+  --sidebar-foreground: #F4F6F8;
+  --sidebar-primary: #2A3F5F;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: #D4AF37;
+  --sidebar-accent-foreground: #1E2A38;
+  --sidebar-border: rgba(255, 255, 255, 0.1);
+  --sidebar-ring: #D4AF37;
+}
+        .card-gradient {
+          background: linear-gradient(to bottom right, var(--card-gradient-stops));
+        }
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
 }

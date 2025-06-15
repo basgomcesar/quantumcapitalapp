@@ -45,6 +45,7 @@ export async function login({ email, password }) {
       Cookies.set("userId", parsedData.idUsuario);
       Cookies.set("user", parsedData.nombre);
       Cookies.set("apellidos", parsedData.apellido);
+
     }
   }
 

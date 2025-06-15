@@ -1,4 +1,16 @@
 "use client";
+<<<<<<< HEAD
+=======
+import Link from "next/link";
+import { PasswordInput } from "./PasswordInput";
+import { TextInput } from "./TextInput";
+import { useState } from "react";
+import { FaSpinner } from "react-icons/fa";
+import { useForm } from "react-hook-form";
+import { useLogin } from "@/hooks/useLogin";
+import Cookies from "js-cookie";  // Importamos js-cookie para acceder a las cookies
+
+>>>>>>> dev
 
 import React from "react";
 
