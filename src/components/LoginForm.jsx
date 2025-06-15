@@ -1,80 +1,81 @@
 "use client";
-import Link from "next/link";
-import { PasswordInput } from "./PasswordInput";
-import { TextInput } from "./TextInput";
-import { useState } from "react";
-import { FaSpinner } from "react-icons/fa";
-import { useForm } from "react-hook-form";
-import { useLogin } from "@/hooks/useLogin";
 
-export function LoginForm() {
-  const { login, loading, error, resetError } = useLogin();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-  } = useForm();
+import React from "react";
 
-  const onSubmit = async (data) => {
-    resetError();
-    try {
-      const { email, password } = data;
-      await login(email, password);
-    } catch (error) {
-
-    }
-  };
-
+export default function PaymentForm() {
   return (
-    <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
-      <TextInput
-        label="Correo electronico"
-        id="email"
-        defaultMessageError="Correo invalido"
-        register={register("email", {
-          required: "Ingrese un correo.",
-          pattern: {
-            value: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/,
-            message: "Formato de correo inválido.",
-          },
-        })}
-        error={errors.email}
-      />
-      <PasswordInput
-        label="Contraseña"
-        register={register("password", {
-          required: "Ingrese una contraseña.",
-        })}
-        error={errors.password}
-      />
-            {error && !errors.password && (
-        <div className="text-red-600 text-sm mt-1">{error}</div>
-      )}
+    <div className="min-h-screen bg-white flex items-start justify-center px-4 py-10">
+      <div className="w-full max-w-6xl bg-white rounded-lg shadow-lg p-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* Parte izquierda - Métodos de pago */}
+        <div className="md:col-span-1">
+          <div className="bg-blue-200 rounded-lg p-4 mb-6">
+            <h3 className="font-bold mb-1">Métodos de pago</h3>
+            <p className="text-sm mb-2">Aceptamos los siguientes métodos de pago seguro:</p>
+            <div className="flex gap-2">
+              <img src="/visa.png" alt="Visa" className="h-6" />
+              <img src="/mastercard.png" alt="MasterCard" className="h-6" />
+              <img src="/amex.png" alt="Amex" className="h-6" />
+              <img src="/paypal.png" alt="PayPal" className="h-6" />
+            </div>
+          </div>
 
-      <div className="flex items-start justify-between">
-        <div className="text-sm">
-          <Link
-            href="/reset-password"
-            className="text-indigo-600 hover:text-indigo-500"
-          >
-            ¿Olvidaste tu contraseña?
-          </Link>
+          <div className="text-left">
+            <p className="text-lg font-medium">Total a pagar:</p>
+            <p className="text-2xl font-bold text-gray-800">$218.00</p>
+          </div>
+        </div>
+
+        {/* Parte derecha - Formulario */}
+        <div className="md:col-span-2">
+          <h2 className="text-xl font-semibold mb-4">Confirme su metodo de pago</h2>
+
+          <div className="mb-4">
+            <label className="block font-semibold mb-1">Método de pago</label>
+            <select className="w-full p-3 rounded-lg bg-violet-50">
+              <option>--Selecciona tu metodo de pago--</option>
+              <option>Visa</option>
+              <option>MasterCard</option>
+              <option>American Express</option>
+            </select>
+          </div>
+
+          <div className="mb-4">
+            <label className="block font-semibold mb-1">Número de tarjeta</label>
+            <input
+              type="text"
+              placeholder="1234 5678 9012 3456"
+              className="w-full p-3 rounded-lg bg-violet-50"
+            />
+          </div>
+
+          <div className="flex gap-4 mb-4">
+            <div className="flex-1">
+              <label className="block font-semibold mb-1">Mes/Año</label>
+              <input
+                type="text"
+                placeholder="MM/YY"
+                className="w-full p-3 rounded-lg bg-violet-50"
+              />
+            </div>
+            <div className="flex-1">
+              <label className="block font-semibold mb-1">CVV</label>
+              <input
+                type="text"
+                placeholder="CVV"
+                className="w-full p-3 rounded-lg bg-violet-50"
+              />
+            </div>
+          </div>
+
+          <p className="text-center text-sm text-gray-600 mt-6">
+            Al hacer click en continuar usted acepta nuestros términos de uso
+          </p>
+
+          <button className="w-full mt-4 bg-fuchsia-600 hover:bg-fuchsia-700 text-white font-medium py-3 px-6 rounded-full">
+            Continuar
+          </button>
         </div>
       </div>
-      <button
-        disabled={isSubmitting || loading}
-        className={`flex w-full justify-center rounded-3xl bg-indigo-600 px-3 py-3 text-md text-white  focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 ${
-          isSubmitting || loading
-            ? "opacity-80 cursor-not-allowed "
-            : "cursor-pointer hover:bg-indigo-500"
-        }`}
-      >
-        {isSubmitting || loading ? (
-          <FaSpinner className="animate-spin" size={20} color="white" />
-        ) : (
-          "Iniciar sesión"
-        )}
-      </button>
-    </form>
+    </div>
   );
 }
