@@ -38,7 +38,7 @@ export default function LoansPage() {
           <div className="space-y-6 lg:col-span-1">
             <ReportedAddressesCard />
             <EmploymentAddressesCard />
-            <DownloadReportCard />
+            <DownloadReportCard creditos={creditos} />
           </div>
         </div>
       </div>
