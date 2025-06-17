@@ -1,50 +1,139 @@
 //src/app/claim/page.jsx
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useModal } from "@/hooks/useModal";
 import ClaimCreditsTable from "@/components/ClaimCreditsTable";
 import ClaimRequestsTable from "@/components/ClaimRequestTable";
-import Cookies from "js-cookie"; // Importa js-cookie aquí
-import { useCreditos } from "@/hooks/useClaim";
-//Se importa el spinner para mostrar mientras se cargan los créditos
+import { NewClaimModal } from "@/components/NewClaimModal";
+import { SeeClaimModal } from "@/components/SeeClaimModal";
+import Cookies from "js-cookie";
+import { useCreditos, useClaimsByUser  } from "@/hooks/useClaim";
 import { FaSpinner } from "react-icons/fa";
+
 export default function ClaimPage() {
   const modal = useModal();
-
-  // Aquí llamamos el hook
   const { creditos, loading, error } = useCreditos();
+  const { reclamos, loadingSeeClaim, errorSeeClaim, refetchClaims } = useClaimsByUser();
+  const [selectedCredito, setSelectedCredito] = useState(null);
+  const [selectedClaim, setSelectedClaim] = useState(null);
+  const [showAlert, setShowAlert] = useState(false);
+  const [showAlertSeeClaim, setShowAlertSeeClaim] = useState(false);
 
+  const [modalOpen, setModalOpen] = useState(false);
+   const [modalOpenSeeClaim, setModalOpenSeeClaim] = useState(false);
+
+ // --- Nuevo useEffect para imprimir cantidad de reclamos ---
   useEffect(() => {
-    // Accedemos al token desde las cookies
+    if (reclamos) {
+      console.log("Cantidad de reclamos devueltos:", reclamos.length);
+      // Si quieres ver el array completo también, descomenta:
+      // console.log("Reclamos devueltos:", reclamos);
+    }
+  }, [reclamos]);
+  useEffect(() => {
     const token = Cookies.get("authToken");
-
-    // Imprimimos el token en la consola
     console.log("Token de autenticación:", token);
-  }, []); // Ejecuta una sola vez al cargar el componente
+  }, []);
 
-  if (loading) return <p className="ml-64 pt-16">Cargando créditos...</p>;
-  //if (error) return <p className="ml-64 pt-16 text-red-600">Error: {error}</p>;
+  const handleButtonClick = () => {
+    if (selectedCredito) {
+      setShowAlert(false);
+      setModalOpen(true);
+    } else {
+      setShowAlert(true);
+    }
+  };
+
+  const handleButtonClickClaim = () => {
+    if (selectedClaim) {
+      setShowAlertSeeClaim(false);
+      setModalOpenSeeClaim(true);
+    } else {
+      setShowAlertSeeClaim(true);
+    }
+  };
+
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+    setSelectedCredito(null);
+  };
+
+  const handleCloseModalSeeClaim = () => {
+    setModalOpenSeeClaim(false);
+    setSelectedClaim(null);
+  };
+
+  if (loading)
+    return (
+      <p className="ml-64 pt-16 flex items-center gap-2">
+        <FaSpinner className="animate-spin text-2xl" />
+        <span>Cargando créditos...</span>
+      </p>
+    );
 
   return (
-    <>
-      <div className=" bg-white p-6">
-        {loading && (
-          <div className="flex items-center gap-2">
-            <FaSpinner className="animate-spin text-2xl" />
-            <span>Cargando créditos...</span>
-          </div>
-        )}
-        {error && (
-          <p className="text-red-600">
-            Error al cargar los créditos: {error}
+    <div className="min-h-screen bg-white p-6 pt-16">
+      {error && (
+        <p className="text-red-600 mb-4">
+          Error al cargar los créditos: {error}
+        </p>
+      )}
+     
+
+
+
+      <ClaimCreditsTable
+        creditos={creditos}
+        onSelectCredito={(credito) => {
+          setSelectedCredito(credito);
+          setShowAlert(false);
+        }}
+        onButtonClick={handleButtonClick}
+        selectedCreditoId={selectedCredito?.id}
+      />
+
+      {showAlert && (
+        <p className="text-center text-red-600 mt-4">
+          Debes seleccionar un crédito antes de registrar un reclamo.
+        </p>
+      )}
+
+
+      
+
+        <ClaimRequestsTable
+          reclamos={reclamos}
+          onSelectClaim={(reclamo) => {
+            setSelectedClaim(reclamo);
+            setShowAlertSeeClaim(false);
+          }}
+          onButtonClickSeeClaim={handleButtonClickClaim} 
+          selectedClaimId={selectedClaim?.id}
+        />
+
+        {showAlertSeeClaim && (
+          <p className="text-center text-red-600 mt-4">
+            Debes seleccionar un reclamo antes de continuar.
           </p>
         )}
-        {/* pt-16 para dejar espacio al TopBar fijo */}
-        <ClaimCreditsTable onButtonClick={() => modal.open("newClaim")} />
-        <br />
-        <ClaimRequestsTable onButtonClick={() => modal.open("seeClaim")} />
-      </div>
-    </>
+
+
+
+      <NewClaimModal
+        isOpen={modalOpen}
+        credito={selectedCredito}
+        onClose={handleCloseModal}
+        onClaimCreated={refetchClaims}
+      />
+
+      <SeeClaimModal
+        isOpen={modalOpenSeeClaim}
+        reclamo={selectedClaim}
+        onClose={handleCloseModalSeeClaim}
+      />
+      
+    </div>
   );
 }

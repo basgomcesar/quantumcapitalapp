@@ -1,6 +1,8 @@
 //src/components/SeeClaimModal.jsx
-export function SeeClaimModal({ isOpen, onClose }) {
-  if (!isOpen) return null;
+export function SeeClaimModal({ isOpen, onClose, reclamo }) {
+  if (!isOpen || !reclamo) return null;
+
+  const estado = reclamo.dictamen === "Pendiente" ? "Pendiente" : "Atendido";
 
   return (
     <div className="fixed inset-0 flex justify-center items-center z-50">
@@ -11,14 +13,20 @@ export function SeeClaimModal({ isOpen, onClose }) {
         <h2 className="text-xl font-semibold mb-6 text-purple-900 text-center">
           Información del Reclamo
         </h2>
+
         <form>
           <div className="flex flex-col gap-6 mb-6">
             <label className="text-purple-900 font-semibold flex items-center gap-4">
               Fecha del Reclamo:
               <input
                 type="text"
-                className="flex-1 bg-gray-200 rounded-full py-2 px-4 shadow-inner shadow-black/30"
+                value={
+                  reclamo.fechaReclamo
+                    ? new Date(reclamo.fechaReclamo).toLocaleDateString()
+                    : "N/D"
+                }
                 readOnly
+                className="flex-1 bg-gray-200 rounded-full py-2 px-4 shadow-inner shadow-black/30"
               />
             </label>
 
@@ -26,8 +34,9 @@ export function SeeClaimModal({ isOpen, onClose }) {
               Estado del Reclamo:
               <input
                 type="text"
-                className="flex-1 bg-gray-200 rounded-full py-2 px-4 shadow-inner shadow-black/30"
+                value={estado}
                 readOnly
+                className="flex-1 bg-gray-200 rounded-full py-2 px-4 shadow-inner shadow-black/30"
               />
             </label>
           </div>
@@ -38,8 +47,9 @@ export function SeeClaimModal({ isOpen, onClose }) {
                 Descripción del Reclamo
               </label>
               <textarea
-                className="w-full bg-gray-200 rounded-3xl p-4 shadow-inner shadow-black/30 resize-none h-24"
+                value={reclamo.descripcionReclamo ?? "Sin descripción"}
                 readOnly
+                className="w-full bg-gray-200 rounded-3xl p-4 shadow-inner shadow-black/30 resize-none h-24"
               />
             </div>
 
@@ -48,8 +58,9 @@ export function SeeClaimModal({ isOpen, onClose }) {
                 Dictamen
               </label>
               <textarea
-                className="w-full bg-gray-200 rounded-3xl p-4 shadow-inner shadow-black/30 resize-none h-24"
+                value={reclamo.dictamen ?? "Sin dictamen"}
                 readOnly
+                className="w-full bg-gray-200 rounded-3xl p-4 shadow-inner shadow-black/30 resize-none h-24"
               />
             </div>
           </div>

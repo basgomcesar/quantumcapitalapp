@@ -1,14 +1,37 @@
 // src/lib/services/claimServices.js
-import { fetchCreditos } from "../api/claimClient";
+import { fetchCreditosPorUsuario, GetClaimsByUser   } from "../api/claimClient";
+import { RegisterNewClaim } from "../api/claimClient";
 
 /**
+ * Obtener los créditos del usuario autenticado
  * @param {number} userId
- * @param {string} token  // Asegúrate de que el token se pase como parámetro
+ * @param {string} token  
  * @returns {Promise<Credito[]>}
  */
 export async function getCredits() {
   
-  // Pasar el token a la función fetchCreditos
-  const response = await fetchCreditos();
+  const response = await fetchCreditosPorUsuario();
   return response;
+}
+
+
+/**
+ * Registra un nuevo reclamo
+ * @param {number} creditoId 
+ * @param {string} descripcion 
+ * @returns {Promise<Claim>}
+ */
+export async function registerNewClaim(creditoId, descripcion) {
+  return await RegisterNewClaim(creditoId, descripcion);
+}
+
+
+/**
+ * Obtener reclamos del usuario autenticado
+ * @param {number} userId
+ * @param {string} token 
+ * @returns {Promise<Claim[]>}
+ */
+export async function getClaims() {
+  return await GetClaimsByUser();
 }
