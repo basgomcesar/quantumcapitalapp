@@ -56,7 +56,7 @@ const data = {
     },
     {
       title: "Creditos",
-      url: "/loans",
+      url: "/payment",
       icon: Wallet,
     },
   ],
