@@ -55,8 +55,6 @@ export default function PaymentForm() {
 
     setError("");
 
-    // Fuerza el fallo del pago
-    //const pagoExitoso = false;
     const pago = Math.random();
     if (pago < 0.7) {
       toast.success("Pago procesado exitosamente", {
@@ -104,7 +102,7 @@ export default function PaymentForm() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-800 via-purple-700 to-fuchsia-700 flex items-start justify-center px-4 py-10">
+    <div className="min-h-screen flex items-start justify-center px-4 py-10" style={{ backgroundColor: "#1E3A5F" }}>
       <Toaster />
       <div className="w-full max-w-6xl bg-white rounded-lg shadow-lg p-8 grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="md:col-span-2">

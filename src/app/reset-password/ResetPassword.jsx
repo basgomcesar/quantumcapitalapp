@@ -12,7 +12,7 @@ const ResetPassword = () => {
   const [serverError, setServerError] = useState("");
 
   return (
-    <div className="container bg-[var(--primary)] mx-auto flex flex-col items-center justify-center h-screen">
+    <div className="min-h-screen w-full bg-[var(--primary)] flex flex-col items-center justify-center">
       <h1 className="text-3xl mb-10 text-white font-semibold">
         ¿Olvidaste tu contraseña?
       </h1>
