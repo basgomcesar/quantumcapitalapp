@@ -67,7 +67,7 @@ export default function PaymentForm() {
         },
         icon: "✅",
       });
-      setTimeout(() => router.push("/detallescredito"), 2000);
+      setTimeout(() => router.push("/loans"), 2000);
     } else {
       toast.error("Error al procesar el pago. Intente más tarde.", {
         duration: 3000,
