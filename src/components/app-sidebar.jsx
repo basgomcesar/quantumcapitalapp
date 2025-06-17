@@ -3,16 +3,7 @@
 import Cookies from "js-cookie";
 import * as React from "react";
 import {
-  BookOpen,
-  Bot,
-  Command,
   Landmark,
-  Frame,
-  LifeBuoy,
-  Map,
-  PieChart,
-  Send,
-  Settings2,
   HomeIcon,
   ClipboardList,
   Megaphone,
@@ -57,7 +48,7 @@ const data = {
     },
     {
       title: "Creditos",
-      url: "/payment",
+      url: "/loans",
       icon: Wallet,
     },
   ],

@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast, Toaster } from "react-hot-toast";
+ import Cookies from "js-cookie";
 
 export default function PaymentForm() {
   const [method, setMethod] = useState("");
@@ -67,6 +68,7 @@ export default function PaymentForm() {
         },
         icon: "✅",
       });
+      Cookies.set("pagada", "true", { expires: 1 }); // Guardar cookie por 1 día
       setTimeout(() => router.push("/loans"), 2000);
     } else {
       toast.error("Error al procesar el pago. Intente más tarde.", {
