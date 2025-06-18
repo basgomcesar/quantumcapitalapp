@@ -13,10 +13,16 @@ import ReportedAddressesCard from "@/components/ReportedAddressesCard";
 import EmploymentAddressesCard from "@/components/EmploymentAddressesCard";
 import DownloadReportCard from "@/components/DownloadReportCard";
 import useUser from "@/hooks/useUser";
+import PaymentForm from "@/app/payment/page";
 
 export default function LoansPage() {
   const { creditos, loading, error } = useLoans();
   const { user } = useUser();
+  const isPaid = Cookies.get("pagada");
+
+  if (!isPaid) {
+    return <PaymentForm />;
+  }
 
   if (loading) return <LoadingState />;
   if (error) return <ErrorState error={error} />;
