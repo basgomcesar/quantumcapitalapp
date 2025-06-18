@@ -26,7 +26,7 @@ import {
 const data = {
   user: {
     name: Cookies.get("user") + " " + Cookies.get("apellidos"),
-    email: "cesarbasiliogomez@example.com",
+    email: Cookies.get("email"),
     avatar: "/avatars/shadcn.jpg",
   },
   navMain: [
