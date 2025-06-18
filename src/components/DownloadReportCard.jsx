@@ -5,15 +5,33 @@ import { Download } from "lucide-react";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 
-export default function DownloadReportCard({ creditos, user }) {
-  console.log("Estado crédito:", creditos.estadoCredito);
+function getEstadoTexto(idEstadoCredito) {
+  switch (idEstadoCredito) {
+    case 1:
+      return "Crédito corriente";
+    case 2:
+      return "Crédito atrasado";
+    case 3:
+      return "Crédito sin recuperar";
+    case 4:
+      return "Crédito cerrado";
+    default:
+      return "Desconocido";
+  }
+}
 
+export default function DownloadReportCard({ creditos, user }) {
   const handleDownload = () => {
     const doc = new jsPDF();
-    doc.setFontSize(18);
-    doc.text("Reporte de Créditos Detallado", 14, 20);
+    doc.setFontSize(20);
+    doc.setTextColor("#1E40AF"); // azul oscuro similar a bitácora
+    doc.text("Quantum Capital", 14, 20);
 
-    let y = 30;
+    doc.setFontSize(18);
+    doc.setTextColor("#000000");
+    doc.text("Reporte de Créditos Detallado", 14, 30);
+
+    let y = 40;
 
     if (user) {
       doc.setFontSize(16);
@@ -31,13 +49,29 @@ export default function DownloadReportCard({ creditos, user }) {
       y += 10;
     }
 
-
-    doc.setFontSize(14);
-    doc.text("Créditos Registrados", 14, y);
-    y += 5;
-
     autoTable(doc, {
       startY: y,
+      headStyles: {
+        fillColor: "#1E40AF", // azul oscuro
+        textColor: "#FFFFFF",
+        halign: "center",
+        fontStyle: "bold",
+      },
+      bodyStyles: {
+        fillColor: "#F3F4F6", // gris claro para filas pares
+        textColor: "#374151",
+      },
+      alternateRowStyles: {
+        fillColor: "#E5E7EB", // gris un poco más oscuro para filas impares
+      },
+      tableLineColor: "#9CA3AF", // gris para bordes
+      tableLineWidth: 0.1,
+      styles: {
+        cellPadding: 4,
+        fontSize: 10,
+        halign: "center",
+        valign: "middle",
+      },
       head: [["#", "Monto Prestado", "Saldo Pendiente", "Fecha Apertura", "Plazo", "Estado"]],
       body: creditos.map((credito, index) => [
         index + 1,
@@ -45,13 +79,9 @@ export default function DownloadReportCard({ creditos, user }) {
         `$${credito.saldoPendiente.toFixed(2)}`,
         new Date(credito.fechaApertura).toLocaleDateString(),
         `${credito.plazoMesesAPagar} meses`,
-        getEstadoTexto(credito.idEstadoCredito)
+        getEstadoTexto(credito.idEstadoCredito),
       ]),
     });
-
-
-    y = doc.lastAutoTable.finalY + 10;
-
 
     doc.save("reporte-creditos-detallado.pdf");
   };
@@ -85,17 +115,3 @@ export default function DownloadReportCard({ creditos, user }) {
   );
 }
 
-function getEstadoTexto(idEstadoCredito) {
-  switch (idEstadoCredito) {
-    case 1:
-      return "Crédito corriente";
-    case 2:
-      return "Crédito atrasado";
-    case 3:
-      return "Crédito sin recuperar";
-    case 4:
-      return "Crédito cerrado";
-    default:
-      return "Desconocido";
-  }
-}
