@@ -5,7 +5,9 @@ import { Download } from "lucide-react";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 
-export default function DownloadReportCard({ creditos }) {
+export default function DownloadReportCard({ creditos, user }) {
+  console.log("Estado crédito:", creditos.estadoCredito);
+
   const handleDownload = () => {
     const doc = new jsPDF();
     doc.setFontSize(18);
@@ -13,93 +15,43 @@ export default function DownloadReportCard({ creditos }) {
 
     let y = 30;
 
-    creditos.forEach((credito, index) => {
-      doc.setFontSize(14);
-      doc.text(`Crédito #${index + 1}`, 14, y);
+    if (user) {
+      doc.setFontSize(16);
+      doc.text("INFORMACIÓN DEL USUARIO", 14, y);
+      y += 8;
 
-      // Tabla principal del crédito
-      autoTable(doc, {
-        startY: y + 5,
-        head: [["Monto Prestado", "Saldo Pendiente", "Fecha Apertura", "Plazo", "Estado"]],
-        body: [[
-          `$${credito.montoPrestado.toFixed(2)}`,
-          `$${credito.saldoPendiente.toFixed(2)}`,
-          new Date(credito.fechaApertura).toLocaleDateString(),
-          `${credito.plazoMesesAPagar} meses`,
-          credito.estadoCredito?.estado ?? "N/A"
-        ]],
-      });
-
-      y = doc.lastAutoTable.finalY + 5;
-
-      // Domicilio Personal
-      console.log("Domicilio Personal:", credito.domicilioPersonal);
-      console.log("Domicilio Empleo:", credito.domicilioEmpleo);
-
-      if (credito.domicilioPersonal) {
-        doc.text("Domicilio Personal:", 14, y);
-        autoTable(doc, {
-          startY: y + 5,
-          head: [["Calle", "Colonia", "Ciudad", "Estado", "CP"]],
-          body: [[
-            credito.domicilioPersonal.calleYNumero,
-            credito.domicilioPersonal.colonia,
-            credito.domicilioPersonal.ciudad,
-            credito.domicilioPersonal.estado,
-            credito.domicilioPersonal.codigoPostal
-          ]],
-        });
-        y = doc.lastAutoTable.finalY + 5;
-      }
-
-      // Domicilio Empleo
-      if (credito.domicilioEmpleo) {
-        doc.text("Domicilio del Empleo:", 14, y);
-        autoTable(doc, {
-          startY: y + 5,
-          head: [["Compañía", "Puesto", "Salario", "Ciudad", "Estado"]],
-          body: [[
-            credito.domicilioEmpleo.compañia,
-            credito.domicilioEmpleo.puesto,
-            credito.domicilioEmpleo.salario,
-            credito.domicilioEmpleo.ciudad,
-            credito.domicilioEmpleo.estado
-          ]],
-        });
-        y = doc.lastAutoTable.finalY + 5;
-      }
-
-      // Calificaciones Mensuales
-      if (credito.calificacionesMensuales?.length > 0) {
-        doc.text("Calificaciones Mensuales:", 14, y);
-        autoTable(doc, {
-          startY: y + 5,
-          head: [["Fecha", "Calificación"]],
-          body: credito.calificacionesMensuales.map((c) => [
-            new Date(c.fechaCalificacion).toLocaleDateString(),
-            c.calificacion
-          ])
-        });
-        y = doc.lastAutoTable.finalY + 5;
-      }
-
-      // Reclamos
-      if (credito.reclamos?.length > 0) {
-        doc.text("Reclamos:", 14, y);
-        autoTable(doc, {
-          startY: y + 5,
-          head: [["Fecha", "Descripción", "Dictamen"]],
-          body: credito.reclamos.map((r) => [
-            new Date(r.fechaReclamo).toLocaleDateString(),
-            r.descripcionReclamo,
-            r.dictamen
-          ])
-        });
-        y = doc.lastAutoTable.finalY + 5;
-      }
-
+      doc.setFontSize(12);
+      doc.text(`Nombre: ${user.nombreUsuario ? user.nombreUsuario + " " + user.apellidos : "N/A"}`, 14, y);
+      y += 6;
+      doc.text(`RFC: ${user.rfc ?? "N/A"}`, 14, y);
+      y += 6;
+      doc.text(`Correo electrónico: ${user.correo ?? "N/A"}`, 14, y);
+      y += 6;
+      doc.text(`Teléfono: ${user.telefono ?? "N/A"}`, 14, y);
       y += 10;
+    }
+
+
+    doc.setFontSize(14);
+    doc.text("Créditos Registrados", 14, y);
+    y += 5;
+
+    autoTable(doc, {
+      startY: y,
+      head: [["#", "Monto Prestado", "Saldo Pendiente", "Fecha Apertura", "Plazo", "Estado"]],
+      body: creditos.map((credito, index) => [
+        index + 1,
+        `$${credito.montoPrestado.toFixed(2)}`,
+        `$${credito.saldoPendiente.toFixed(2)}`,
+        new Date(credito.fechaApertura).toLocaleDateString(),
+        `${credito.plazoMesesAPagar} meses`,
+        getEstadoTexto(credito.idEstadoCredito)
+      ]),
     });
+
+
+    y = doc.lastAutoTable.finalY + 10;
+
 
     doc.save("reporte-creditos-detallado.pdf");
   };
@@ -131,4 +83,19 @@ export default function DownloadReportCard({ creditos }) {
       </CardContent>
     </Card>
   );
+}
+
+function getEstadoTexto(idEstadoCredito) {
+  switch (idEstadoCredito) {
+    case 1:
+      return "Crédito corriente";
+    case 2:
+      return "Crédito atrasado";
+    case 3:
+      return "Crédito sin recuperar";
+    case 4:
+      return "Crédito cerrado";
+    default:
+      return "Desconocido";
+  }
 }
