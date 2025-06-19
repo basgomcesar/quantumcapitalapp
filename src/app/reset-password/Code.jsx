@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { TextInput } from "@/components/TextInput";
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 const Code = ({ email, setStep, setServerError, setCodigoVerificado }) => {
   const [code, setCode] = useState("");
@@ -22,7 +23,7 @@ const Code = ({ email, setStep, setServerError, setCodigoVerificado }) => {
 
     try {
       const res = await fetch(
-        `http://localhost:5062/api/CodigoRecuperacions/validar/${encodeURIComponent(email)}/${value}`,
+        `${BASE_URL}/CodigoRecuperacions/validar/${encodeURIComponent(email)}/${value}`,
         { method: "POST" }
       );
 

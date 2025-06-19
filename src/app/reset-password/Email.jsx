@@ -2,6 +2,8 @@
 
 import React, { useState } from "react";
 import { TextInput } from "@/components/TextInput";
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+
 
 const Email = ({ email, setEmail, setStep, setServerError }) => {
   const [error, setError] = useState(null);
@@ -24,7 +26,7 @@ const Email = ({ email, setEmail, setStep, setServerError }) => {
       setError(null);
       setServerError("");
 
-      const res = await fetch("http://localhost:5062/api/codigoRecuperacions", {
+      const res = await fetch(`${BASE_URL}/codigoRecuperacions`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(email),
