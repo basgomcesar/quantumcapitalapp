@@ -23,12 +23,10 @@ export default function ClaimPage() {
   const [modalOpen, setModalOpen] = useState(false);
    const [modalOpenSeeClaim, setModalOpenSeeClaim] = useState(false);
 
- // --- Nuevo useEffect para imprimir cantidad de reclamos ---
+ // ---  useEffect para imprimir cantidad de reclamos ---
   useEffect(() => {
     if (reclamos) {
-      console.log("Cantidad de reclamos devueltos:", reclamos.length);
-      // Si quieres ver el array completo también, descomenta:
-      // console.log("Reclamos devueltos:", reclamos);
+      
     }
   }, [reclamos]);
   useEffect(() => {
@@ -75,15 +73,7 @@ export default function ClaimPage() {
 
   return (
     <div className="min-h-screen bg-white p-6 pt-16">
-      {error && (
-        <p className="text-red-600 mb-4">
-          Error al cargar los créditos: {error}
-        </p>
-      )}
      
-
-
-
       <ClaimCreditsTable
         creditos={creditos}
         onSelectCredito={(credito) => {
