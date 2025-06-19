@@ -69,7 +69,7 @@ export default function PaymentForm() {
         icon: "✅",
       });
       Cookies.set("pagada", "true", { expires: 1 }); // Guardar cookie por 1 día
-      setTimeout(() => router.push("/loans"), 2000);
+      setTimeout(() => router.push("/loans"), 1000); // Redirigir después de 1 segundo
     } else {
       toast.error("Error al procesar el pago. Intente más tarde.", {
         duration: 3000,
