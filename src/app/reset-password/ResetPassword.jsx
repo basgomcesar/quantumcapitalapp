@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import Email from "./Email";
 import Code from "./Code";
 import Password from "./Password";
-
+import Link from "next/link";
 const ResetPassword = () => {
   const [step, setStep] = useState("email");
   const [email, setEmail] = useState("");
@@ -55,9 +55,9 @@ const ResetPassword = () => {
         <div className="mt-4 text-center">
           <p className="text-sm text-gray-500">
             ¿Ya tienes una cuenta?{" "}
-            <a href="/login" className="text-indigo-600 hover:text-indigo-500">
+            <Link href="/login" className="text-indigo-600 hover:text-indigo-500">
               Iniciar sesión
-            </a>
+            </Link>
           </p>
         </div>
       </div>
