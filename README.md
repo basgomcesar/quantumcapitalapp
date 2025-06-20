@@ -1,36 +1,82 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Quantum Capital – Plataforma de Gestión de Créditos
 
-## Getting Started
+Este proyecto es una aplicación desarrollada con [Next.js](https://nextjs.org/) que permite la visualización, gestión y análisis de créditos y reclamos. Utiliza tecnologías modernas como Tailwind CSS, ShadCN UI, Framer Motion y componentes reutilizables optimizados para rendimiento y experiencia de usuario.
 
-First, run the development server:
+---
+
+## 🧱 Tecnologías principales
+
+- **Next.js 14** – Framework para React con soporte SSR y estructura modular.
+- **Tailwind CSS** – Sistema de diseño utilitario para estilos personalizados.
+- **ShadCN UI** – Componentes accesibles, estilizados y consistentes.
+- **Framer Motion** – Animaciones fluidas y declarativas.
+- **React Icons & Lucide** – Íconos modernos y minimalistas.
+- **Cookies JS** – Gestión de autenticación basada en tokens.
+
+---
+
+## 🚀 ¿Cómo iniciar el proyecto?
+
+Primero, instala las dependencias y ejecuta el entorno de desarrollo:
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Luego abre [http://localhost:3000](http://localhost:3000) en tu navegador para ver la aplicación.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📁 Estructura del proyecto
 
-## Learn More
+```
+.
+├── app/                     # Rutas y páginas (App Router)
+│   ├── page.tsx            # Página de inicio
+│   ├── logs/               # Página de bitácora
+│   ├── loans/              # Página de historial crediticio
+│   └── claims/             # Página de reclamos
+├── components/             # Componentes reutilizables
+├── hooks/                  # Hooks personalizados (useLoans, useUser, etc.)
+├── lib/                    # Lógica de servicios (API, helpers)
+├── styles/                 # Estilos globales
+└── public/                 # Recursos estáticos
+```
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## ✨ Funcionalidades destacadas
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- 📊 **Dashboard de usuario** con tarjetas de información, puntuación de riesgo y resumen de créditos.
+- 🧾 **Bitácora de actividades** con tabla dinámica y carga con skeletons.
+- 🏢 **Direcciones personales y laborales** organizadas en tarjetas visuales.
+- 📁 **Descarga de reportes** personalizados en base al usuario y sus créditos.
+- 💳 **Sistema de pago simulado** para habilitar la vista principal.
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 📦 Despliegue
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Puedes desplegar esta aplicación fácilmente en [Vercel](https://vercel.com) con un solo clic:
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new)
+
+---
+
+## 📚 Recursos adicionales
+
+- [Documentación de Next.js](https://nextjs.org/docs)
+- [Guía de Tailwind CSS](https://tailwindcss.com/docs)
+- [ShadCN UI Docs](https://ui.shadcn.dev/)
+- [Framer Motion Docs](https://www.framer.com/motion/)
+
+---
+
+## 🧑‍💻 Autor
+
+Desarrollado por el equipo de Quantum Capital  
+**basgomcesar** – `cesarbasiliogomez@gmail.com`
+**caixba**
+**carlos**
+**benjamin**
