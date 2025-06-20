@@ -1,4 +1,9 @@
 "use client";
+import { useEffect, useState } from "react";
+import {
+  fetchReportedAddresses,
+  fetchEmploymentAddresses,
+} from "@/lib/services/addressService";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import useLoans from "@/hooks/useLoans";
 import { Button } from "@/components/ui/button";
@@ -42,6 +47,20 @@ export default function LoansPage() {
   const { creditos, loading, error } = useLoans();
   const { user } = useUser();
   const isPaid = Cookies.get("pagada");
+  const [domiciliosPersonales, setDomiciliosPersonales] = useState([]);
+  const [domiciliosEmpleo, setDomiciliosEmpleo] = useState([]);
+
+  useEffect(() => {
+    async function fetchAddresses() {
+      const personales = await fetchReportedAddresses();
+      const empleo = await fetchEmploymentAddresses();
+
+      setDomiciliosPersonales(personales || []);
+      setDomiciliosEmpleo(empleo || []);
+    }
+
+    fetchAddresses();
+  }, []);
 
   if (!isPaid) {
     return <PaymentForm />;
@@ -51,7 +70,19 @@ export default function LoansPage() {
 
   return (
     <div className="h-screen flex flex-col overflow-hidden md:px-6">
-      <div className="flex-1 overflow-y-auto p-6">
+      <div className="flex-1 overflow-y-auto p-4 md:p-6">
+        <div className="mb-8 text-left max-w-4xl mx-auto">
+          <h1 className="text-3xl font-bold text-gray-800 mb-2">
+            Panel de Créditos y Reportes
+          </h1>
+          <p className="text-gray-600">
+            Explora la información general del usuario, el estado de sus
+            créditos, sus domicilios registrados y los datos laborales
+            asociados. Además, puedes descargar un reporte completo para
+            análisis detallado. Este panel resume todo lo relacionado con el
+            historial crediticio y su evaluación.
+          </p>
+        </div>
         <motion.div
           initial="hidden"
           animate="show"
@@ -59,8 +90,11 @@ export default function LoansPage() {
           className="grid grid-cols-1 lg:grid-cols-4 gap-6 max-w-7xl mx-auto"
         >
           {/* Left Column - 75% width */}
-          <motion.div variants={itemVariants} className="space-y-6 lg:col-span-3">
-            <motion.div 
+          <motion.div
+            variants={itemVariants}
+            className="space-y-6 lg:col-span-3"
+          >
+            <motion.div
               variants={containerVariants}
               className="grid grid-cols-1 md:grid-cols-3 gap-4"
             >
@@ -90,7 +124,10 @@ export default function LoansPage() {
           </motion.div>
 
           {/* Right Column - 25% width */}
-          <motion.div variants={itemVariants} className="space-y-6 lg:col-span-1">
+          <motion.div
+            variants={itemVariants}
+            className="space-y-6 lg:col-span-1"
+          >
             {loading ? (
               <ReportedAddressesCardSkeleton />
             ) : (
@@ -106,7 +143,12 @@ export default function LoansPage() {
               </motion.div>
             )}
             <motion.div variants={cardVariants}>
-              <DownloadReportCard creditos={creditos} user={user} />
+              <DownloadReportCard
+                creditos={creditos}
+                user={user}
+                domiciliosPersonales={domiciliosPersonales}
+                domiciliosEmpleo={domiciliosEmpleo}
+              />
             </motion.div>
           </motion.div>
         </motion.div>

@@ -26,9 +26,10 @@ export default function ClaimPage() {
   const [modalOpen, setModalOpen] = useState(false);
   const [modalOpenSeeClaim, setModalOpenSeeClaim] = useState(false);
 
+ // ---  useEffect para imprimir cantidad de reclamos ---
   useEffect(() => {
     if (reclamos) {
-      console.log("Cantidad de reclamos devueltos:", reclamos.length);
+      
     }
   }, [reclamos]);
 
