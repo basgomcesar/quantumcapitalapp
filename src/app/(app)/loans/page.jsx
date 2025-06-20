@@ -1,4 +1,6 @@
 "use client";
+import { useEffect, useState } from "react";
+import { fetchReportedAddresses, fetchEmploymentAddresses } from "@/lib/services/addressService";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import useLoans from "@/hooks/useLoans";
 import { Button } from "@/components/ui/button";
@@ -19,6 +21,22 @@ export default function LoansPage() {
   const { creditos, loading, error } = useLoans();
   const { user } = useUser();
   const isPaid = Cookies.get("pagada");
+  const [domiciliosPersonales, setDomiciliosPersonales] = useState([]);
+  const [domiciliosEmpleo, setDomiciliosEmpleo] = useState([]);
+
+  useEffect(() => {
+    async function fetchAddresses() {
+      const personales = await fetchReportedAddresses();
+      const empleo = await fetchEmploymentAddresses();
+
+      setDomiciliosPersonales(personales || []);
+      setDomiciliosEmpleo(empleo || []);
+    }
+
+    fetchAddresses();
+  }, []);
+
+
 
   if (!isPaid) {
     return <PaymentForm />;
@@ -44,7 +62,12 @@ export default function LoansPage() {
           <div className="space-y-6 lg:col-span-1">
             <ReportedAddressesCard />
             <EmploymentAddressesCard />
-            <DownloadReportCard creditos={creditos} user ={user} />
+            <DownloadReportCard
+              creditos={creditos}
+              user={user}
+              domiciliosPersonales={domiciliosPersonales}
+              domiciliosEmpleo={domiciliosEmpleo}
+            />
           </div>
         </div>
       </div>

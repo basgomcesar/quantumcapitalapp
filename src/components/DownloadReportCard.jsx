@@ -20,7 +20,7 @@ function getEstadoTexto(idEstadoCredito) {
   }
 }
 
-export default function DownloadReportCard({ creditos, user }) {
+export default function DownloadReportCard({ creditos, user, domiciliosPersonales = [], domiciliosEmpleo = [] }) {
   const handleDownload = () => {
     const doc = new jsPDF();
     doc.setFontSize(20);
@@ -47,6 +47,44 @@ export default function DownloadReportCard({ creditos, user }) {
       y += 6;
       doc.text(`Teléfono: ${user.telefono ?? "N/A"}`, 14, y);
       y += 10;
+    }
+
+    // Domicilios reportados
+    if (domiciliosPersonales.length > 0) {
+      doc.setFontSize(14);
+      doc.setTextColor("#1E40AF");
+      doc.text("DOMICILIO(S) REPORTADO(S)", 14, y);
+      y += 6;
+
+      domiciliosPersonales.forEach((dom, index) => {
+        doc.setFontSize(11);
+        doc.setTextColor("#000");
+        doc.text(`• Dirección #${index + 1}: ${dom.calleYNumero}, ${dom.colonia}, ${dom.ciudad}`, 16, y);
+        y += 5;
+      });
+
+      y += 5;
+    }
+
+    // Domicilios de empleo
+    if (domiciliosEmpleo.length > 0) {
+      doc.setFontSize(14);
+      doc.setTextColor("#1E40AF");
+      doc.text("DOMICILIO(S) DE EMPLEO", 14, y);
+      y += 6;
+
+      domiciliosEmpleo.forEach((dom, index) => {
+        doc.setFontSize(11);
+        doc.setTextColor("#000");
+        doc.text(`• ${dom.puesto} - ${dom.calleYNumero}, ${dom.colonia}, ${dom.ciudad}`, 16, y);
+        y += 5;
+        doc.setFontSize(10);
+        doc.setTextColor("#4B5563"); // gris medio
+        doc.text(`  ${dom.compañia} | Activo desde: ${new Date(dom.fechaRegistro).toLocaleDateString()}`, 16, y);
+        y += 6;
+      });
+
+      y += 5;
     }
 
     autoTable(doc, {
