@@ -1,6 +1,20 @@
-// src/components/ClaimCreditsTable.jsx
-
 import React from "react";
+import {
+  Table,
+  TableHeader,
+  TableRow,
+  TableHead,
+  TableBody,
+  TableCell,
+} from "@/components/ui/table";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
+import { MoreVertical } from "lucide-react";
 
 const ESTADOS_CREDITO = {
   1: "Corriente",
@@ -9,82 +23,61 @@ const ESTADOS_CREDITO = {
   4: "Cerrado",
 };
 
-export default function ClaimCreditsTable({
-  creditos = [],
-  onButtonClick,
-  onSelectCredito,
-  selectedCreditoId,
-}) {
+export default function ClaimCreditsTable({ creditos = [], onRegisterClaim }) {
   return (
     <div className="flex flex-col">
-      {/* Título fuera del contenedor de la tabla pero arriba de todo */}
       <h2 className="text-xl font-semibold text-gray-800 mb-4">Tus Créditos</h2>
-      
-      <div className="flex flex-col md:flex-row md:items-center gap-4">
-        <article className="flex-1 rounded-xl overflow-hidden shadow-md">
-          <table className="w-full table-fixed border-collapse">
-            <thead className="bg-blue-950 text-white rounded-t-xl">
-              <tr>
-                <th className="py-2 px-3 text-sm font-semibold border-r border-gray-500">
-                  Fecha de Apertura
-                </th>
-                <th className="py-2 px-3 text-sm font-semibold border-r border-gray-500">
-                  Monto Prestado
-                </th>
-                <th className="py-2 px-3 text-sm font-semibold border-r border-gray-500">
-                  Fecha de Modificación
-                </th>
-                <th className="py-2 px-3 text-sm font-semibold">Estado de Crédito</th>
-              </tr>
-            </thead>
-            <tbody className="bg-gray-100 text-gray-700">
-              {creditos.length === 0 ? (
-                <tr>
-                  <td colSpan="4" className="py-2 px-3 text-center text-gray-500">
-                    No hay créditos para mostrar
-                  </td>
-                </tr>
-              ) : (
-                creditos.map((credito, index) => {
-                  const isSelected = selectedCreditoId === credito.id;
-                  return (
-                    <tr
-                      key={credito.id}
-                      onClick={() => onSelectCredito(credito)}
-                      className={`cursor-pointer transition ${
-                        isSelected
-                          ? "bg-blue-100 border-l-4 border-blue-500"
-                          : index % 2 === 0
-                          ? "bg-gray-100"
-                          : "bg-gray-200"
-                      } hover:bg-gray-300`}
-                    >
-                      <td className="py-2 px-3 border-b border-gray-300">
-                        {new Date(credito.fechaApertura).toLocaleDateString()}
-                      </td>
-                      <td className="py-2 px-3 border-b border-gray-300">
-                        ${credito.montoPrestado.toFixed(2)}
-                      </td>
-                      <td className="py-2 px-3 border-b border-gray-300">
-                        {new Date(credito.fechaHoraModificacion).toLocaleDateString()}
-                      </td>
-                      <td className="py-2 px-3 border-b border-gray-300">
-                        {ESTADOS_CREDITO[credito.idEstadoCredito] || "Desconocido"}
-                      </td>
-                    </tr>
-                  );
-                })
-              )}
-            </tbody>
-          </table>
-        </article>
 
-        <button
-          className="md:ml-6 self-start bg-blue-950 text-white py-3 px-6 rounded-xl shadow hover:bg-gray-500 transition whitespace-nowrap"
-          onClick={onButtonClick}
-        >
-          Registrar Nuevo Reclamo
-        </button>
+      <div className="rounded-xl border shadow-sm">
+        <Table>
+          <TableHeader>
+            <TableRow className="bg-blue-950 text-white hover:bg-blue-950">
+              <TableHead className="text-white">Fecha de Apertura</TableHead>
+              <TableHead className="text-white">Monto Prestado</TableHead>
+              <TableHead className="text-white">Fecha de Modificación</TableHead>
+              <TableHead className="text-white">Estado de Crédito</TableHead>
+              <TableHead className="text-white text-right">Acciones</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {creditos.length === 0 ? (
+              <TableRow>
+                <TableCell colSpan={5} className="text-center text-muted-foreground">
+                  No hay créditos para mostrar
+                </TableCell>
+              </TableRow>
+            ) : (
+              creditos.map((credito) => (
+                <TableRow key={credito.id}>
+                  <TableCell>
+                    {new Date(credito.fechaApertura).toLocaleDateString()}
+                  </TableCell>
+                  <TableCell>${credito.montoPrestado.toFixed(2)}</TableCell>
+                  <TableCell>
+                    {new Date(credito.fechaHoraModificacion).toLocaleDateString()}
+                  </TableCell>
+                  <TableCell>
+                    {ESTADOS_CREDITO[credito.idEstadoCredito] || "Desconocido"}
+                  </TableCell>
+                  <TableCell className="text-right">
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" size="icon">
+                          <MoreVertical className="h-5 w-5" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        <DropdownMenuItem onClick={() => onRegisterClaim(credito)}>
+                          Registrar reclamo
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </TableCell>
+                </TableRow>
+              ))
+            )}
+          </TableBody>
+        </Table>
       </div>
     </div>
   );

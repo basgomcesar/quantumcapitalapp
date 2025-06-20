@@ -44,65 +44,6 @@ function SummaryCounters({ creditos }) {
   );
 }
 
-// function RecentMovements() {
-//   const movements = [
-//     {
-//       institution: "Banco Nacional",
-//       type: "Tarjeta de crédito",
-//       amount: "$1,250,000",
-//       status: "Al día",
-//       statusColor: "text-green-600"
-//     },
-//     {
-//       institution: "Cooperativa XYZ",
-//       type: "Crédito personal",
-//       amount: "$850,000",
-//       status: "30 días mora",
-//       statusColor: "text-yellow-600"
-//     },
-//     {
-//       institution: "Banco Popular",
-//       type: "Crédito hipotecario",
-//       amount: "$45,000,000",
-//       status: "Al día",
-//       statusColor: "text-green-600"
-//     },
-//     {
-//       institution: "Financiera Comultrasan",
-//       type: "Crédito vehículo",
-//       amount: "$18,500,000",
-//       status: "Al día",
-//       statusColor: "text-green-600"
-//     },
-//     {
-//       institution: "Davivienda",
-//       type: "Tarjeta de crédito",
-//       amount: "$2,800,000",
-//       status: "60 días mora",
-//       statusColor: "text-red-600"
-//     },
-//     {
-//       institution: "Bancolombia",
-//       type: "Crédito libre inversión",
-//       amount: "$5,200,000",
-//       status: "Al día",
-//       statusColor: "text-green-600"
-//     },
-//     {
-//       institution: "BBVA",
-//       type: "Línea de crédito",
-//       amount: "$3,100,000",
-//       status: "15 días mora",
-//       statusColor: "text-yellow-600"
-//     },
-//     {
-//       institution: "Scotiabank Colpatria",
-//       type: "Tarjeta de crédito",
-//       amount: "$1,750,000",
-//       status: "Al día",
-//       statusColor: "text-green-600"
-//     }
-//   ];
 
 function RecentMovements({ creditos }) {
   const movements = creditos.map((credito) => ({

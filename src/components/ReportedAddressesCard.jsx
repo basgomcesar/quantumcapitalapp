@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { MapPin } from "lucide-react";
 import { fetchReportedAddresses } from "@/lib/services/addressService";
 
+
 export default function ReportedAddressesCard() {
   const [addresses, setAddresses] = useState([]);
 
