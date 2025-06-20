@@ -2,6 +2,8 @@
 
 import React, { useState } from "react";
 import { TextInput } from "@/components/TextInput";
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+
 
 const Password = ({ email, codigo, setServerError }) => {
   const [password, setPassword] = useState("");
@@ -39,7 +41,7 @@ const Password = ({ email, codigo, setServerError }) => {
 
     try {
       setIsSubmitting(true);
-      const res = await fetch("http://localhost:5062/api/Cuentas/recuperar-contrasenia", {
+      const res = await fetch(`${BASE_URL}/Cuentas/recuperar-contrasenia`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

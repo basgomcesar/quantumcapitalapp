@@ -1,7 +1,7 @@
 // src/lib/models/Client.js
 
 /**
- * @typedef {Object} Reclamo
+ * @typedef {Object} Claim
  * @property {number} id
  * @property {string} fechaReclamo
  * @property {string} descripcionReclamo
@@ -10,7 +10,7 @@
  */
 
 /**
- * @typedef {Object} Credito
+ * @typedef {Object} Credit
  * @property {number} id
  * @property {number} montoPrestado
  * @property {number} saldoPendiente
@@ -18,7 +18,7 @@
  * @property {number} plazoMesesAPagar
  * @property {number} idUsuario
  * @property {number} idDomicilioPersonal
- * @property {number} idDomicilioEmpleo
+ * @Sproperty {number} idDomicilioEmpleo
  * @property {number} idCalificacionMensual
  * @property {number} idEstadoCredito
  * @property {Reclamo[]} reclamos
