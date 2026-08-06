@@ -37,7 +37,7 @@ export default function SystemLogTable({ bitacoras = [] }) {
               </TableRow>
             ) : (
               bitacoras.map((log, index) => (
-                <TableRow key={index}>
+                <TableRow key={log.id ?? `${log.tipo}-${log.fecha}-${index}`}>
                   <TableCell className="text-center font-medium">{log.tipo}</TableCell>
                   <TableCell className="text-center">
                     {new Date(log.fecha).toLocaleString()}

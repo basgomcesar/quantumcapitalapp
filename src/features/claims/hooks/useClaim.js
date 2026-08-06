@@ -1,62 +1,58 @@
-// src/hooks/useClaim.js
-import { useState, useEffect } from "react";
-import { getCredits, getClaims  } from "@/lib/services/claimServices";
-import Cookies from "js-cookie";
+"use client"
 
-// Hook para obtener los créditos del usuario autenticado
+import { useEffect, useState } from "react"
+import { getClaims, getCredits } from "@/lib/services/claimServices"
+
+const GENERIC_CLAIMS_ERROR =
+  "No fue posible cargar la información de reclamos. Intenta nuevamente más tarde."
+
 export function useCreditos() {
-  const [creditos, setCreditos] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [creditos, setCreditos] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
 
   useEffect(() => {
     async function fetchData() {
-      setLoading(true);
-      setError(null);
-
+      setLoading(true)
+      setError(null)
       try {
-
-        // Llamamos a la función getCredits, pasándole el userId y el token en las cabeceras
-        const data = await getCredits();
-
-        setCreditos(data);
-      } catch (err) {
-        setError(err.message || "Error al cargar créditos");
+        const data = await getCredits()
+        setCreditos(Array.isArray(data) ? data : [])
+      } catch (requestError) {
+        console.error("Error al cargar créditos para reclamos:", requestError)
+        setError(GENERIC_CLAIMS_ERROR)
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
     }
+    fetchData()
+  }, [])
 
-    fetchData();
-  }, []);
-
-  return { creditos, loading, error };
+  return { creditos, loading, error }
 }
 
-// Hook para obtener los reclamos del usuario autenticado
 export function useClaimsByUser() {
-  const [reclamos, setReclamos] = useState([]);
-  const [loadingSeeClaim, setLoading] = useState(false);
-  const [errorSeeClaim, setError] = useState(null);
+  const [reclamos, setReclamos] = useState([])
+  const [loadingSeeClaim, setLoading] = useState(false)
+  const [errorSeeClaim, setError] = useState(null)
 
-  // ✅ Definir la función fuera del useEffect
   async function fetchData() {
-    setLoading(true);
-    setError(null);
+    setLoading(true)
+    setError(null)
     try {
-      const data = await getClaims();
-      setReclamos(data);
-    } catch (err) {
-      setError(err.message || "Error al cargar reclamos");
+      const data = await getClaims()
+      setReclamos(Array.isArray(data) ? data : [])
+    } catch (requestError) {
+      console.error("Error al cargar reclamos:", requestError)
+      setError(GENERIC_CLAIMS_ERROR)
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
   }
 
-  // ✅ Usar useEffect solo para invocar la función
   useEffect(() => {
-    fetchData();
-  }, []);
+    fetchData()
+  }, [])
 
-  return { reclamos, loadingSeeClaim, errorSeeClaim, refetchClaims: fetchData };
+  return { reclamos, loadingSeeClaim, errorSeeClaim, refetchClaims: fetchData }
 }

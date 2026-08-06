@@ -77,11 +77,11 @@ export default function ClaimPage() {
 
   return (
     <div className="min-h-screen bg-background p-6 pt-16">
-      {error && (
+      {(error || errorSeeClaim) && (
         <Alert variant="destructive" className="mb-4">
           <AlertTitle>Error</AlertTitle>
           <AlertDescription>
-            Error al cargar los créditos: {error}
+            {error || errorSeeClaim}
           </AlertDescription>
         </Alert>
       )}
