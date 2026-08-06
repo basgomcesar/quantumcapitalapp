@@ -27,7 +27,9 @@ export async function fetchReportedAddresses() {
     throw error;
   }
 }
-export default {
+const addressService = {
   fetchEmploymentAddresses,
   fetchReportedAddresses,
 };
+
+export default addressService;

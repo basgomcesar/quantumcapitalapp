@@ -3,7 +3,10 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast, Toaster } from "react-hot-toast";
- import Cookies from "js-cookie";
+import Cookies from "js-cookie";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 export default function PaymentForm() {
   const [method, setMethod] = useState("");
@@ -113,22 +116,22 @@ export default function PaymentForm() {
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
               <label className="block font-semibold mb-1">Método de pago</label>
-              <select
-                className={`w-full p-3 rounded-lg bg-violet-50 ${fieldErrors.method ? "border border-red-500" : ""}`}
-                value={method}
-                onChange={(e) => setMethod(e.target.value)}
-              >
-                <option>--Selecciona tu metodo de pago--</option>
-                <option>Visa</option>
-                <option>MasterCard</option>
-                <option>American Express</option>
-              </select>
+              <Select value={method} onValueChange={setMethod}>
+                <SelectTrigger aria-invalid={Boolean(fieldErrors.method)} className="bg-violet-50">
+                  <SelectValue placeholder="Selecciona tu método de pago" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Visa">Visa</SelectItem>
+                  <SelectItem value="MasterCard">MasterCard</SelectItem>
+                  <SelectItem value="American Express">American Express</SelectItem>
+                </SelectContent>
+              </Select>
               {fieldErrors.method && <p className="text-red-600 text-sm mt-1">{fieldErrors.method}</p>}
             </div>
 
             <div className="mb-4">
               <label className="block font-semibold mb-1">Número de tarjeta</label>
-              <input
+              <Input
                 type="text"
                 placeholder="1234 5678 9012 3456"
                 className={`w-full p-3 rounded-lg bg-violet-50 ${fieldErrors.cardNumber ? "border border-red-500" : ""}`}
@@ -141,7 +144,7 @@ export default function PaymentForm() {
             <div className="flex gap-4 mb-4">
               <div className="flex-1">
                 <label className="block font-semibold mb-1">Mes/Año</label>
-                <input
+                <Input
                   type="text"
                   placeholder="MM/YY"
                   className={`w-full p-3 rounded-lg bg-violet-50 ${fieldErrors.expiry ? "border border-red-500" : ""}`}
@@ -152,7 +155,7 @@ export default function PaymentForm() {
               </div>
               <div className="flex-1">
                 <label className="block font-semibold mb-1">CVV</label>
-                <input
+                <Input
                   type="text"
                   placeholder="CVV"
                   className={`w-full p-3 rounded-lg bg-violet-50 ${fieldErrors.cvv ? "border border-red-500" : ""}`}
@@ -169,12 +172,12 @@ export default function PaymentForm() {
               Al hacer click en continuar usted acepta nuestros términos de uso
             </p>
 
-            <button
+            <Button
               type="submit"
               className="w-full mt-4 bg-fuchsia-600 hover:bg-fuchsia-700 text-white font-medium py-3 px-6 rounded-full"
             >
               Continuar
-            </button>
+            </Button>
           </form>
         </div>
 

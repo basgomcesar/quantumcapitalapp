@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { TextInput } from "@/components/TextInput";
+import { TextInput } from "@/components/shared/forms/TextInput";
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 const Code = ({ email, setStep, setServerError, setCodigoVerificado }) => {

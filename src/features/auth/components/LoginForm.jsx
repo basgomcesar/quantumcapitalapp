@@ -1,12 +1,12 @@
 "use client";
 import Link from "next/link";
-import { PasswordInput } from "./PasswordInput";
-import { TextInput } from "./TextInput";
-import { useState } from "react";
+import { PasswordInput } from "@/components/shared/forms/PasswordInput";
+import { TextInput } from "@/components/shared/forms/TextInput";
 import { FaSpinner } from "react-icons/fa";
 import { useForm } from "react-hook-form";
-import { useLogin } from "@/hooks/useLogin";
-import Cookies from "js-cookie";  // Importamos js-cookie para acceder a las cookies
+import { useLogin } from "@/features/auth/hooks/useLogin";
+import { Button } from "@/components/ui/button";
+import { MOCK_USER } from "@/features/auth/mocks/mock-auth";
 
 
 export function LoginForm() {
@@ -15,7 +15,11 @@ export function LoginForm() {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm();
+  } = useForm({
+    defaultValues: process.env.NEXT_PUBLIC_ENABLE_MOCK_LOGIN === "true"
+      ? { email: MOCK_USER.email, password: MOCK_USER.password }
+      : undefined,
+  });
 
   const onSubmit = async (data) => {
     resetError();
@@ -63,20 +67,22 @@ export function LoginForm() {
           </Link>
         </div>
       </div>
-      <button
+      <Button
+        type="submit"
         disabled={isSubmitting || loading}
-        className={`flex w-full justify-center rounded-3xl bg-indigo-600 px-3 py-3 text-md text-white  focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 ${
-          isSubmitting || loading
-            ? "opacity-80 cursor-not-allowed "
-            : "cursor-pointer hover:bg-indigo-500"
-        }`}
+        className="w-full rounded-3xl py-6"
       >
         {isSubmitting || loading ? (
           <FaSpinner className="animate-spin" size={20} color="white" />
         ) : (
           "Iniciar sesión"
         )}
-      </button>
+      </Button>
+      {process.env.NEXT_PUBLIC_ENABLE_MOCK_LOGIN === "true" && (
+        <p className="text-center text-xs text-muted-foreground">
+          Acceso demo: {MOCK_USER.email} / {MOCK_USER.password}
+        </p>
+      )}
     </form>
   );
 }

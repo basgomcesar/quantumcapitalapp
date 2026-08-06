@@ -15,7 +15,7 @@ const withAuth = (WrappedComponent) => {
       } else {
         setLoading(false);
       }
-    }, []);
+    }, [router]);
 
     if (loading) {
       return (

@@ -1,6 +1,6 @@
 "use client";
-import { LoginForm } from "../../components/LoginForm";
-import { HeroSection } from "../../components/HeroSection";
+import { LoginForm } from "@/features/auth/components/LoginForm";
+import { HeroSection } from "@/components/marketing/HeroSection";
 
 export default function LoginPage() {
   return (

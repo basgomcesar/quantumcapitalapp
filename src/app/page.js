@@ -33,7 +33,7 @@ export default function CreditConsultationLanding() {
   useEffect(() => {
     setIsVisible(true)
     const interval = setInterval(() => {
-      setCurrentTestimonial((prev) => (prev + 1) % testimonials.length)
+      setCurrentTestimonial((prev) => (prev + 1) % 3)
     }, 5000)
     return () => clearInterval(interval)
   }, [])
@@ -247,7 +247,7 @@ export default function CreditConsultationLanding() {
                     ))}
                   </div>
                   <blockquote className="text-xl text-muted-foreground mb-6 italic">
-                    "{testimonials[currentTestimonial].content}"
+                    &ldquo;{testimonials[currentTestimonial].content}&rdquo;
                   </blockquote>
                   <div>
                     <div className="font-semibold text-foreground">{testimonials[currentTestimonial].name}</div>
@@ -258,7 +258,11 @@ export default function CreditConsultationLanding() {
             </Card>
             <div className="flex justify-center mt-6 space-x-2">
               {testimonials.map((_, index) => (
-                <button
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon"
+                  aria-label={`Mostrar testimonio ${index + 1}`}
                   key={index}
                   onClick={() => setCurrentTestimonial(index)}
                   className={`w-3 h-3 rounded-full transition-colors ${

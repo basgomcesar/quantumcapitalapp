@@ -1,7 +1,7 @@
 "use client";
 
-import SystemLogTable from "@/components/SystemLogTable";
-import { useLogs } from "@/hooks/useLogs";
+import SystemLogTable from "@/features/logs/components/SystemLogTable";
+import { useLogs } from "@/features/logs/hooks/useLogs";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export default function LogsPage() {

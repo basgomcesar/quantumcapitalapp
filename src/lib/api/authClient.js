@@ -1,11 +1,28 @@
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 import Cookies from "js-cookie";
+import { authenticateMockUser } from "@/features/auth/mocks/mock-auth";
+
+function persistSession(data, email) {
+  Cookies.set("authToken", data.token);
+  Cookies.set("userId", String(data.idUsuario));
+  Cookies.set("user", data.nombre);
+  Cookies.set("apellidos", data.apellido);
+  Cookies.set("email", email);
+}
 
 /**
  * @param {LoginData} credentials
  * * @returns {Promise<User>}
  */
 export async function login({ email, password }) {
+  if (process.env.NEXT_PUBLIC_ENABLE_MOCK_LOGIN === "true") {
+    const mockUser = authenticateMockUser({ email, password });
+    if (mockUser) {
+      persistSession(mockUser, email);
+      return mockUser;
+    }
+  }
+
   const response = await fetch(`${BASE_URL}/Cuentas/Login`, {
     method: "POST",
     headers: {
@@ -41,11 +58,7 @@ export async function login({ email, password }) {
         apellidos: parsedData.apellido,
       };
     } else {
-      Cookies.set("authToken", parsedData.token);
-      Cookies.set("userId", parsedData.idUsuario);
-      Cookies.set("user", parsedData.nombre);
-      Cookies.set("apellidos", parsedData.apellido);
-      Cookies.set("email", email);
+      persistSession(parsedData, email);
 
     }
   }

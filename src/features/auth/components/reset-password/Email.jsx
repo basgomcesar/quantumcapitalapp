@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import { TextInput } from "@/components/TextInput";
+import { TextInput } from "@/components/shared/forms/TextInput";
+import { Button } from "@/components/ui/button";
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 
@@ -62,13 +63,13 @@ const Email = ({ email, setEmail, setStep, setServerError }) => {
           onChange={handleChange}
           error={error}
         />
-        <button
+        <Button
           type="submit"
           disabled={isChecking}
-          className="flex w-full justify-center rounded-3xl bg-indigo-600 px-3 py-3 text-md text-white hover:bg-indigo-500 disabled:opacity-60"
+          className="w-full rounded-3xl py-6"
         >
           {isChecking ? "Verificando..." : "Continuar"}
-        </button>
+        </Button>
       </form>
     </>
   );

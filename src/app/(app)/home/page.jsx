@@ -3,7 +3,7 @@
 import React from "react"
 import { useEffect, useState } from "react"
 import { motion } from "framer-motion"
-import ReportSection from "@/components/ReportSection"
+import ReportSection from "@/features/reports/components/ReportSection"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { CreditCard, TrendingUp, FileText } from "lucide-react"
@@ -110,7 +110,11 @@ export default function Page() {
           {/* Indicadores */}
           <div className="flex justify-center space-x-2 mt-6">
             {carouselItems.map((_, index) => (
-              <button
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                aria-label={`Mostrar sección ${index + 1}`}
                 key={index}
                 onClick={() => setCurrentSlide(index)}
                 className={`w-3 h-3 rounded-full transition-all duration-300 ${

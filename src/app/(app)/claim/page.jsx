@@ -2,12 +2,12 @@
 
 import React, { useEffect, useState } from "react";
 import { useModal } from "@/hooks/useModal";
-import ClaimCreditsTable from "@/components/ClaimCreditsTable";
-import ClaimRequestsTable from "@/components/ClaimRequestTable";
-import { NewClaimModal } from "@/components/NewClaimModal";
-import { SeeClaimModal } from "@/components/SeeClaimModal";
+import ClaimCreditsTable from "@/features/claims/components/tables/ClaimCreditsTable";
+import ClaimRequestsTable from "@/features/claims/components/tables/ClaimRequestTable";
+import { NewClaimModal } from "@/features/claims/components/dialogs/NewClaimModal";
+import { SeeClaimModal } from "@/features/claims/components/dialogs/SeeClaimModal";
 import Cookies from "js-cookie";
-import { useCreditos, useClaimsByUser } from "@/hooks/useClaim";
+import { useCreditos, useClaimsByUser } from "@/features/claims/hooks/useClaim";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
