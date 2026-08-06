@@ -1,89 +1,48 @@
-// src/lib/api/claimClient.js
-import Cookies from "js-cookie";
+import Cookies from "js-cookie"
+import { requireApiUrl, throwResponseError } from "@/lib/api/api-error"
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+const GENERIC_CLAIMS_ERROR = "No fue posible completar la operación de reclamos."
 
-// Recupera los créditos del usuario autenticado
+function getSession() {
+  const userId = Cookies.get("userId")
+  const token = Cookies.get("authToken")
+  if (!userId || !token) throw new Error("La sesión no está disponible.")
+  return { userId, token }
+}
+
 export async function fetchCreditosPorUsuario() {
-  const userId = Cookies.get("userId");
-  const token = Cookies.get("authToken");
-
-  if (!userId || !token) {
-    throw new Error("No se encontró el userId o el token de autenticación.");
-  }
-
-  const response = await fetch(`${BASE_URL}/Creditoes/usuario/${userId}`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  });
-
-  if (!response.ok) {
-    const errorText = await response.text();
-    throw new Error(errorText || "Error al obtener los créditos del usuario");
-  }
-
-  const data = await response.json();
-  return data; // Lista de objetos CreditoDTO
+  const baseUrl = requireApiUrl()
+  const { userId, token } = getSession()
+  const response = await fetch(`${baseUrl}/Creditoes/usuario/${userId}`, {
+    headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+  })
+  if (!response.ok) await throwResponseError(response, GENERIC_CLAIMS_ERROR)
+  return response.json()
 }
 
-//Registra un nuevo reclamo para un crédito
 export async function RegisterNewClaim(creditoId, descripcion) {
-  const token = Cookies.get("authToken");
-
-  if (!token) {
-    throw new Error("No se encontró el token de autenticación.");
-  }
-
-  const body = {
-    idCredito: creditoId,
-    descripcionReclamo: descripcion,
-    fechaReclamo: new Date().toISOString(),
-    dictamen: "Pendiente", 
-  };
-
-  const response = await fetch(`${BASE_URL}/Reclamoes`, {
+  const baseUrl = requireApiUrl()
+  const { token } = getSession()
+  const response = await fetch(`${baseUrl}/Reclamoes`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify(body),
-  });
-
-  if (!response.ok) {
-    const errorText = await response.text();
-    throw new Error(errorText || "Error al registrar el reclamo");
-  }
-
-  return await response.json(); // Devuelve el ReclamoDTO creado
+    headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+    body: JSON.stringify({
+      idCredito: creditoId,
+      descripcionReclamo: descripcion,
+      fechaReclamo: new Date().toISOString(),
+      dictamen: "Pendiente",
+    }),
+  })
+  if (!response.ok) await throwResponseError(response, GENERIC_CLAIMS_ERROR)
+  return response.json()
 }
 
-//Recuperar reclamos del usuario
 export async function GetClaimsByUser() {
-  const userId = Cookies.get("userId");
-  const token = Cookies.get("authToken");
-
-  if (!userId || !token) {
-    throw new Error("No se encontró el userId o el token de autenticación.");
-  }
-
-  const response = await fetch(`${BASE_URL}/Reclamoes/usuario/${userId}`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  });
-
-  if (!response.ok) {
-    const errorText = await response.text();
-    throw new Error(errorText || "Error al obtener los reclamos del usuario");
-  }
-
-  const data = await response.json(); // Lista de objetos ReclamoDTO
-
-  return data;
+  const baseUrl = requireApiUrl()
+  const { userId, token } = getSession()
+  const response = await fetch(`${baseUrl}/Reclamoes/usuario/${userId}`, {
+    headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+  })
+  if (!response.ok) await throwResponseError(response, GENERIC_CLAIMS_ERROR)
+  return response.json()
 }

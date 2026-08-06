@@ -43,8 +43,8 @@ export function NewClaimModal({ isOpen, onClose, credito, onClaimCreated }) {
         setSuccess(false)
         onClose()
       }, 1500)
-    } catch (requestError) {
-      setError(requestError.message || "Error al registrar el reclamo.")
+    } catch {
+      setError("No fue posible registrar el reclamo. Intenta nuevamente más tarde.")
     } finally {
       setIsSubmitting(false)
     }

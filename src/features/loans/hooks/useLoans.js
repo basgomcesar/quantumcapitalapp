@@ -13,8 +13,8 @@ const useLoans = () => {
                 const data = await fetchLoans();
                 setCreditos(data);
                 setError(null);
-            } catch (err) {
-                setError(err);
+            } catch {
+                setError(true);
             } finally {
                 setLoading(false);
             }

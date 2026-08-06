@@ -9,8 +9,12 @@ export default function ReportedAddressesCard() {
 
   useEffect(() => {
     async function loadAddresses() {
-      const data = await fetchReportedAddresses();
-      setAddresses(data || []);
+      try {
+        const data = await fetchReportedAddresses();
+        setAddresses(data || []);
+      } catch {
+        setAddresses([]);
+      }
     }
     loadAddresses();
   }, []);

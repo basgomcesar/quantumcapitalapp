@@ -7,7 +7,7 @@ export default function EmploymentAddressesCard() {
   const [addresses, setAddresses] = useState([]);
 
   useEffect(() => {
-    fetchEmploymentAddresses().then(setAddresses);
+    fetchEmploymentAddresses().then(setAddresses).catch(() => setAddresses([]));
   }, []);
 
   return (

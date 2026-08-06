@@ -52,11 +52,17 @@ export default function LoansPage() {
 
   useEffect(() => {
     async function fetchAddresses() {
-      const personales = await fetchReportedAddresses();
-      const empleo = await fetchEmploymentAddresses();
-
-      setDomiciliosPersonales(personales || []);
-      setDomiciliosEmpleo(empleo || []);
+      try {
+        const [personales, empleo] = await Promise.all([
+          fetchReportedAddresses(),
+          fetchEmploymentAddresses(),
+        ]);
+        setDomiciliosPersonales(personales || []);
+        setDomiciliosEmpleo(empleo || []);
+      } catch {
+        setDomiciliosPersonales([]);
+        setDomiciliosEmpleo([]);
+      }
     }
 
     fetchAddresses();

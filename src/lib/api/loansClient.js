@@ -1,12 +1,13 @@
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 import Cookies from "js-cookie";
+import { requireApiUrl, throwResponseError } from "@/lib/api/api-error";
 
 /**
  * 
  * @returns {Promise<Credito[]>}
  */
 export async function getLoans() {
-  const response = await fetch(`${BASE_URL}/Creditoes`, {
+  const baseUrl = requireApiUrl();
+  const response = await fetch(`${baseUrl}/Creditoes`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -15,8 +16,7 @@ export async function getLoans() {
   });
 
   if (!response.ok) {
-    const errorText = await response.text();
-    throw new Error(errorText || "Error al obtener los creditos");
+    await throwResponseError(response, "No fue posible cargar los créditos.");
   }
   const data = await response.json();
   // Si data ya es un array, lo retorna tal cual. Si es objeto, lo transforma a array.

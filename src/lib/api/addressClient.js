@@ -1,5 +1,5 @@
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 import Cookies from "js-cookie";
+import { requireApiUrl, throwResponseError } from "@/lib/api/api-error";
 
 /**
  * 
@@ -7,7 +7,8 @@ import Cookies from "js-cookie";
  * @description Obtiene los domicilios de empleo del usuario autenticado.
  */
 export async function getEmploymentAddresses() {
-  const response = await fetch(`${BASE_URL}/DomicilioEmpleos`, {
+  const baseUrl = requireApiUrl();
+  const response = await fetch(`${baseUrl}/DomicilioEmpleos`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -16,8 +17,7 @@ export async function getEmploymentAddresses() {
   });
 
   if (!response.ok) {
-    const errorText = await response.text();
-    throw new Error(errorText || "Error al obtener los domicilios de empleo");
+    await throwResponseError(response, "No fue posible cargar los domicilios.");
   }
   const data = await response.json();
   const loansArray = Array.isArray(data) ? data : Object.values(data) || [];
@@ -31,7 +31,8 @@ export async function getEmploymentAddresses() {
  * @description Obtiene los domicilios reportados del usuario autenticado.
  */
 export async function getReportedAddresses() {
-  const response = await fetch(`${BASE_URL}/DomicilioPersonals`, {
+  const baseUrl = requireApiUrl();
+  const response = await fetch(`${baseUrl}/DomicilioPersonals`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -40,8 +41,7 @@ export async function getReportedAddresses() {
   });
 
   if (!response.ok) {
-    const errorText = await response.text();
-    throw new Error(errorText || "Error al obtener los domicilios reportados");
+    await throwResponseError(response, "No fue posible cargar los domicilios.");
   }
   const data = await response.json();
   const loansArray = Array.isArray(data) ? data : Object.values(data) || [];

@@ -18,8 +18,7 @@ export function useCreditos() {
       try {
         const data = await getCredits()
         setCreditos(Array.isArray(data) ? data : [])
-      } catch (requestError) {
-        console.error("Error al cargar créditos para reclamos:", requestError)
+      } catch {
         setError(GENERIC_CLAIMS_ERROR)
       } finally {
         setLoading(false)
@@ -42,8 +41,7 @@ export function useClaimsByUser() {
     try {
       const data = await getClaims()
       setReclamos(Array.isArray(data) ? data : [])
-    } catch (requestError) {
-      console.error("Error al cargar reclamos:", requestError)
+    } catch {
       setError(GENERIC_CLAIMS_ERROR)
     } finally {
       setLoading(false)

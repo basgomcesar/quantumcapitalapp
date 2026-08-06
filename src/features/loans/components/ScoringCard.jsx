@@ -8,6 +8,7 @@ export default function ScoringCard() {
   const userId = Cookies.get("userId");
   useEffect(() => {
     async function fetchScoring() {
+      if (!BASE_URL) return;
       try {
         const response = await fetch(
           `${BASE_URL}/CalificacionMensuals/score/${userId}`,
@@ -26,9 +27,7 @@ export default function ScoringCard() {
 
         const data = await response.json();
         setScoring(data);
-      } catch (error) {
-        console.error("Error fetching scoring:", error);
-      }
+      } catch {}
     }
     fetchScoring();
   }, [userId]);

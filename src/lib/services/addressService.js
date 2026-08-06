@@ -9,7 +9,6 @@ export async function fetchEmploymentAddresses() {
     const addresses = await getEmploymentAddresses();
     return addresses;
   } catch (error) {
-    console.error("Error fetching employment addresses:", error);
     throw error;
   }
 }
@@ -23,7 +22,6 @@ export async function fetchReportedAddresses() {
     const addresses = await getReportedAddresses();
     return addresses;
   } catch (error) {
-    console.error("Error fetching reported addresses:", error);
     throw error;
   }
 }

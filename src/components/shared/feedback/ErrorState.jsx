@@ -1,9 +1,14 @@
-export default function ErrorState({ error }) {
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+
+export default function ErrorState() {
   return (
-    <div className="flex items-center justify-center h-screen">
-      <div className="text-red-600 text-xl font-semibold">
-        Error al cargar los créditos: {error.message}
-      </div>
+    <div className="mx-auto flex min-h-[50vh] max-w-2xl items-center px-6">
+      <Alert variant="destructive">
+        <AlertTitle>No se pudo cargar la información</AlertTitle>
+        <AlertDescription>
+          No fue posible cargar la información de créditos. Intenta nuevamente más tarde.
+        </AlertDescription>
+      </Alert>
     </div>
-  );
+  )
 }
