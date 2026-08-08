@@ -15,6 +15,36 @@ Este proyecto es una aplicación desarrollada con [Next.js](https://nextjs.org/)
 
 ---
 
+## 🔧 Configuración de Git
+
+Antes de ejecutar cualquier comando `git`, asegúrate de estar **dentro de un repositorio Git válido** (el directorio debe contener una carpeta `.git`).
+
+### Opción A – Clonar el repositorio (recomendado)
+
+```bash
+git clone https://github.com/basgomcesar/quantumcapitalapp.git
+cd quantumcapitalapp
+```
+
+Una vez dentro del directorio clonado, ya tienes el remote `origin` configurado. Si necesitas cambiarlo:
+
+```bash
+git remote set-url origin https://github.com/basgomcesar/quantumcapitalapp.git
+```
+
+### Opción B – Inicializar un repositorio nuevo en un directorio existente
+
+Si tienes archivos locales que aún no están en Git, **primero inicializa el repositorio** y luego agrega el remote:
+
+```bash
+git init
+git remote add origin https://github.com/basgomcesar/quantumcapitalapp.git
+```
+
+> ⚠️ **Error frecuente:** Si ves `fatal: not a git repository (or any of the parent directories): .git`, significa que el directorio donde ejecutas el comando **no ha sido inicializado como repositorio Git**. Navega al directorio correcto o ejecuta `git init` primero.
+
+---
+
 ## 🚀 ¿Cómo iniciar el proyecto?
 
 Primero, instala las dependencias y ejecuta el entorno de desarrollo:
